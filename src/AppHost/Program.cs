@@ -22,13 +22,12 @@ var web = builder.AddProject<Projects.Web>(Services.WebApi)
 
 if (builder.ExecutionContext.IsRunMode)
 {
-    builder.AddNpmApp(Services.WebFrontend, "./../Web/ClientApp")
+    builder.AddViteApp(Services.WebFrontend, "./../Web/ClientApp")
+        .WithBun()
         .WithRunScript("dev")
         .WithReference(web)
         // .WaitFor(web)
-        .WithHttpEndpoint(env: "PORT")
-        .WithExternalHttpEndpoints()
-        .WithLaunchBrowser();
+        .WithExternalHttpEndpoints();
 }
 
 builder.Build().Run();
