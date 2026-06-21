@@ -33,7 +33,13 @@ app.UseCors(static builder =>
 app.UseFileServer();
 
 app.MapOpenApi();
-app.MapScalarApiReference();
+app.MapScalarApiReference(options =>
+{
+    options
+        .WithTitle("GanihuhStack API")
+        .AddPreferredSecuritySchemes("Bearer")
+        .AddHttpAuthentication("Bearer", bearer => { });
+});
 
 app.UseExceptionHandler(options => { });
 
