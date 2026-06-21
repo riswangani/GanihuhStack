@@ -5,6 +5,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!-- Suppress NU1608 until Npgsql.EntityFrameworkCore.PostgreSQL 10.0.0 is released -->
     <WarningsNotAsErrors>NU1608</WarningsNotAsErrors>
+    <!-- Only audit direct dependencies — transitive vulns (Aspire/framework packages) can't be controlled by us -->
+    <NuGetAuditMode>direct</NuGetAuditMode>
     <ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
