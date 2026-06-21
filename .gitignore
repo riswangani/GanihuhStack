@@ -490,3 +490,34 @@ $RECYCLE.BIN/
 *.db
 *.db-shm
 *.db-wal
+
+# ========================
+# GanihuhStack — Local secrets & overrides
+# ========================
+
+# Local connection strings and credentials (override appsettings.json for local dev)
+# Real credentials go here — never committed
+src/Web/appsettings.Development.json
+
+# Environment variable files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Runtime logs
+src/Web/logs/
+
+# Aspire dashboard local config (may contain dev tokens)
+.aspire/
+
+# Bun cache
+.bun/
+
+# Frontend build output
+src/Web/ClientApp/dist/
+src/Web/ClientApp/.vite/
+
+# OS / editor noise
+.idea/
+*.DS_Store
