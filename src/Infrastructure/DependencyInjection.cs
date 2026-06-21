@@ -42,12 +42,25 @@ public static class DependencyInjection
 
         builder.Services.AddScoped<ApplicationDbContextInitialiser>();
 
-        builder.Services.AddAuthentication(options =>
+        // Policy scheme: pilih Bearer jika ada Authorization header, fallback ke Cookie
+        const string MultiScheme = "BearerOrCookie";
+        var authBuilder = builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = MultiScheme;
+            options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+        });
+        authBuilder.AddPolicyScheme(MultiScheme, "Bearer or Cookie", opts =>
+        {
+            opts.ForwardDefaultSelector = ctx =>
             {
-                options.DefaultScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-            })
-            .AddIdentityCookies();
+                var auth = ctx.Request.Headers.Authorization.FirstOrDefault();
+                return auth?.StartsWith("Bearer ") == true
+                    ? IdentityConstants.BearerScheme
+                    : IdentityConstants.ApplicationScheme;
+            };
+        });
+        authBuilder.AddBearerToken(IdentityConstants.BearerScheme);
+        authBuilder.AddIdentityCookies();
 
         builder.Services.AddAuthorizationBuilder();
 

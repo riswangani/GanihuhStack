@@ -1,12 +1,12 @@
-﻿using GanihuhStack.Domain.Entities;
+using GanihuhStack.Domain.Entities;
 
 namespace GanihuhStack.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
-    DbSet<TodoList> TodoLists { get; }
-
-    DbSet<TodoItem> TodoItems { get; }
+    DbSet<BlogPost> BlogPosts { get; }
+    DbSet<Project> Projects { get; }
+    DbSet<NowStatus> NowStatuses { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
