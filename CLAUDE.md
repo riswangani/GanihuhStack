@@ -35,8 +35,11 @@ The business domain stays intentionally simple (blog posts, projects, a "what I'
 - React 19
 - TypeScript (strict mode)
 - Vite
-- React Router *(not yet installed — planned for Phase 1)*
-- TanStack Query (server state) *(not yet installed — planned for Phase 1)*
+- React Router
+- TanStack Query (server state)
+- **Tailwind CSS v4** — utility-first styling via `@tailwindcss/vite` plugin; design tokens live in the `@theme {}` block in `src/index.css`
+- **shadcn/ui** — unstyled, accessible component primitives (Radix UI) for the dashboard/admin area; add components with `npx shadcn@latest add <component>`; components land in `src/components/ui/`
+- `clsx` + `tailwind-merge` + `class-variance-authority` — used together via `cn()` in `src/lib/utils.ts`
 - Lightweight global client state only when truly needed (e.g. Zustand) — avoid defaulting to heavy state management *(not yet installed)*
 
 ### Orchestration & Local Dev
@@ -174,7 +177,16 @@ Aspire is the **primary orchestration mechanism** for this project. Understandin
 
 **How it runs**: AppHost launches it via `AddNpmApp(...).WithRunScript("dev")` — run the AppHost project to start everything together.
 
-**Current state**: Plain Vite + React 19 starter template. React Router, TanStack Query, and Zustand are **not yet installed**.
+**Current state**: React 19 + Vite + React Router + TanStack Query + Tailwind CSS v4 + shadcn/ui scaffold. Auth and Blog endpoints are wired up.
+
+### Styling rules
+- **Use Tailwind classes** for all new UI code — no inline `style={{}}` except for truly dynamic values (e.g. `style={{ width: someVar + 'px' }}`).
+- **Design tokens** are defined in `src/index.css` inside `@theme {}`. Add new tokens there; never hardcode hex values or magic numbers in component files.
+- **`cn()` from `src/lib/utils.ts`** — always use it when combining conditional classes (`cn('base', condition && 'extra')`).
+- **`cva`** (class-variance-authority) for components with variants (Button, Badge). Keeps variant logic out of JSX.
+- **Public site components** (`src/components/brand/`, `src/components/core/`, `src/components/content/`) use the editorial newspaper design system — keep them faithful to the palette (ink/paper/accent).
+- **shadcn/ui components** (`src/components/ui/`) are for the **dashboard/admin area only** — they don't belong on public-facing pages. Add them with `npx shadcn@latest add <component>`.
+- **Path alias**: use `@/` for all internal imports (`@/components/...`, `@/services/...`, etc.).
 
 ### Principles
 - Strongly typed throughout — **no `any`** unless absolutely unavoidable, and justified with a comment when used
@@ -283,13 +295,14 @@ Projects contain:
 ### Phase 1 — MVP *(in progress)*
 - ~~Project setup (Clean Architecture solution, React + Vite frontend)~~ ✓
 - ~~.NET Aspire orchestration~~ ✓
+- ~~Install frontend dependencies (React Router, TanStack Query, Tailwind CSS v4, shadcn/ui)~~ ✓
+- ~~Authentication~~ ✓
+- ~~Blog CRUD (backend) + public blog list page~~ ✓
 - Clean up template placeholders (remove `TodoItems`, `TodoLists`, `WeatherForecasts`)
-- Install frontend dependencies (React Router, TanStack Query)
-- Authentication
-- Blog CRUD
 - Projects CRUD
 - Now-status CRUD
-- Public portfolio pages
+- Remaining public portfolio pages (Sekarang, Proyek, Tentang, Kontak)
+- Dashboard admin UI (blog + projects + now-status management)
 
 ### Phase 2 — Containerization & Production Config
 - Dockerfile for Web API (Aspire already handles local dev — Docker needed for production images)
@@ -343,7 +356,7 @@ When generating code in this repository, Claude must:
 2. Use CQRS (MediatR) for every new feature; group by entity/feature folder under `Application/`, matching the target pattern (`BlogPosts/`, `Projects/`, `NowStatus/`).
 3. Use FluentValidation for command/query validation, colocated with the handler.
 4. Use PostgreSQL-compatible EF Core code — call out indexing or query-shape concerns when writing migrations or non-trivial queries. Connection strings come from Aspire — never hardcode them.
-5. Use React + TypeScript (strict mode) on the frontend; avoid `any`; use TanStack Query for server state. Frontend lives at `src/Web/ClientApp/`.
+5. Use React + TypeScript (strict mode) on the frontend; avoid `any`; use TanStack Query for server state. Frontend lives at `src/Web/ClientApp/`. Style with Tailwind classes and the `cn()` helper — no inline `style={{}}` except for truly dynamic values.
 6. Keep code production-ready, not tutorial-quality — but don't overengineer: start simple, design for extensibility, and avoid speculative abstractions.
 7. Explain architectural tradeoffs before making a non-trivial structural decision (new layer, new cross-cutting concern, new package).
 8. If a request would violate the dependency rule or introduce a pattern not in this document (e.g. true Vertical Slice Architecture, CQRS-less endpoints, MVC views in the Web layer, raw Docker Compose for local dev), say so explicitly rather than silently complying.
