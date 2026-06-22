@@ -4,11 +4,19 @@ public record DeleteBlogPostCommand(int Id) : IRequest;
 
 public class DeleteBlogPostCommandHandler : IRequestHandler<DeleteBlogPostCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private static readonly Action<ILogger, int, Exception?> LogDeleted =
+        LoggerMessage.Define<int>(
+            LogLevel.Information,
+            new EventId(3, "BlogPostDeleted"),
+            "Blog post deleted. Id: {Id}");
 
-    public DeleteBlogPostCommandHandler(IApplicationDbContext context)
+    private readonly IApplicationDbContext _context;
+    private readonly ILogger<DeleteBlogPostCommandHandler> _logger;
+
+    public DeleteBlogPostCommandHandler(IApplicationDbContext context, ILogger<DeleteBlogPostCommandHandler> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public async Task Handle(DeleteBlogPostCommand request, CancellationToken cancellationToken)
@@ -20,5 +28,7 @@ public class DeleteBlogPostCommandHandler : IRequestHandler<DeleteBlogPostComman
 
         _context.BlogPosts.Remove(blogPost);
         await _context.SaveChangesAsync(cancellationToken);
+
+        LogDeleted(_logger, request.Id, null);
     }
 }

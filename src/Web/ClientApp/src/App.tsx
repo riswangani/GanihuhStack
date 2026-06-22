@@ -18,12 +18,12 @@ export default function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/"          element={<HomePage />} />
-            <Route path="/sekarang"  element={<Placeholder label="Sekarang" />} />
-            <Route path="/jurnal"    element={<JurnalPage />} />
-            <Route path="/proyek"    element={<Placeholder label="Proyek" />} />
-            <Route path="/tentang"   element={<Placeholder label="Tentang" />} />
+            <Route path="/now"       element={<Placeholder label="Now" />} />
+            <Route path="/blog"      element={<JurnalPage />} />
+            <Route path="/projects"  element={<Placeholder label="Projects" />} />
+            <Route path="/about"     element={<Placeholder label="About" />} />
             <Route path="/resume"    element={<Placeholder label="Resume" />} />
-            <Route path="/kontak"    element={<Placeholder label="Kontak" />} />
+            <Route path="/contact"   element={<Placeholder label="Contact" />} />
             <Route path="/dashboard" element={<Placeholder label="Dashboard" />} />
             <Route path="/login"     element={<LoginPage />} />
           </Route>

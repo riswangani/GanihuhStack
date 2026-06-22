@@ -7,12 +7,12 @@ import { isLoggedIn, logout } from '@/services/auth'
 
 const NAV = [
   { to: '/',          label: 'BERANDA',  end: true },
-  { to: '/sekarang',  label: 'SEKARANG'            },
-  { to: '/jurnal',    label: 'JURNAL'               },
-  { to: '/proyek',    label: 'PROYEK'               },
-  { to: '/tentang',   label: 'TENTANG'              },
-  { to: '/resume',    label: 'RESUME'               },
-  { to: '/kontak',    label: 'KONTAK'               },
+  { to: '/now',       label: 'SEKARANG'  },
+  { to: '/blog',      label: 'JURNAL'    },
+  { to: '/projects',  label: 'PROYEK'    },
+  { to: '/about',     label: 'TENTANG'   },
+  { to: '/resume',    label: 'RESUME'    },
+  { to: '/contact',   label: 'KONTAK'    },
 ]
 
 const TICKER = ['CLEAN ARCHITECTURE', '.NET', 'REACT', 'POSTGRESQL', 'BACKEND', 'ARSITEKTUR']
@@ -27,7 +27,7 @@ function PageNav() {
   }
 
   return (
-    <nav className="flex flex-wrap items-center gap-[26px] py-[14px] border-b border-ink/14">
+    <nav className="relative flex flex-wrap justify-center items-center gap-x-[26px] gap-y-[6px] py-[14px] border-b border-ink/14">
       {NAV.map(({ to, label, end }) => {
         const active = end ? pathname === to : pathname.startsWith(to)
         return (
@@ -45,9 +45,8 @@ function PageNav() {
           </Link>
         )
       })}
-      <span className="flex-1" />
-      {isLoggedIn() ? (
-        <>
+      {isLoggedIn() && (
+        <div className="lg:absolute lg:right-0 flex items-center gap-4">
           <Link to="/dashboard" className="font-sans text-[12px] font-medium tracking-[0.08em] uppercase no-underline text-ink-muted hover:text-ink">
             DASHBOARD
           </Link>
@@ -57,11 +56,7 @@ function PageNav() {
           >
             KELUAR
           </button>
-        </>
-      ) : (
-        <Link to="/login" className="font-sans text-[12px] font-medium tracking-[0.08em] uppercase no-underline text-ink-muted hover:text-ink">
-          MASUK
-        </Link>
+        </div>
       )}
     </nav>
   )
