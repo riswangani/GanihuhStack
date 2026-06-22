@@ -56,7 +56,7 @@ export default function HomePage() {
           <p className="font-serif text-[20px] text-ink mb-3 leading-[1.3]">
             Membangun GanihuhStack dari nol
           </p>
-          <Button variant="ghost" href="/sekarang">Lihat fokus saat ini →</Button>
+          <Button variant="ghost" href="/now">Lihat fokus saat ini →</Button>
         </aside>
       </div>
 
@@ -72,7 +72,7 @@ export default function HomePage() {
           {featured && (
             <article>
               <ArticleMeta categories={tagsOf(featured)} date={formatDate(featured.publishedDate ?? featured.created)} />
-              <Link to="/jurnal" className="no-underline">
+              <Link to="/blog" className="no-underline">
                 <Headline size="lg" className="mt-4">{featured.title}</Headline>
               </Link>
               {featured.excerpt && (
@@ -85,7 +85,7 @@ export default function HomePage() {
           <div className="flex flex-col">
             {sideList.map((p, i) => (
               <>
-                <Link key={p.id} to="/jurnal" className="flex flex-col gap-[5px] py-4 no-underline">
+                <Link key={p.id} to="/blog" className="flex flex-col gap-[5px] py-4 no-underline">
                   <span className="font-mono text-[11px] text-ink-muted">{formatDate(p.publishedDate ?? p.created)}</span>
                   <span className="font-serif text-[17px] text-ink leading-[1.3]">{p.title}</span>
                 </Link>
@@ -103,7 +103,7 @@ export default function HomePage() {
       {/* Selected projects — static until Projects endpoint exists */}
       <div className="flex justify-between items-baseline mb-[26px]">
         <SectionHeading>Proyek pilihan</SectionHeading>
-        <Button variant="ghost" href="/proyek">Semua proyek →</Button>
+        <Button variant="ghost" href="/projects">Semua proyek →</Button>
       </div>
       <div className="grid grid-cols-2 gap-px bg-ink/14 border border-ink/14 max-sm:grid-cols-1">
         {STATIC_PROJECTS.map((p, i) => (

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using GanihuhStack.Domain.Common;
 
 namespace GanihuhStack.Domain.Entities;
@@ -11,4 +12,9 @@ public class BlogPost : BaseAuditableEntity
     public string? Tags { get; set; }
     public bool IsPublished { get; set; }
     public DateTimeOffset? PublishedDate { get; set; }
+
+    private static readonly Regex SlugPattern = new(@"[^a-z0-9]+", RegexOptions.Compiled);
+
+    public static string GenerateSlug(string title) =>
+        SlugPattern.Replace(title.ToLower().Trim(), "-").Trim('-');
 }

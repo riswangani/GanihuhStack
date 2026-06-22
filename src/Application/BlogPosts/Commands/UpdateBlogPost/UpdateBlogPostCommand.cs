@@ -4,6 +4,7 @@ public record UpdateBlogPostCommand : IRequest
 {
     public int Id { get; init; }
     public string Title { get; init; } = string.Empty;
+    public string? Slug { get; init; }
     public string Content { get; init; } = string.Empty;
     public string? Excerpt { get; init; }
     public string? Tags { get; init; }
@@ -15,6 +16,8 @@ public class UpdateBlogPostCommandValidator : AbstractValidator<UpdateBlogPostCo
     public UpdateBlogPostCommandValidator()
     {
         RuleFor(v => v.Title).NotEmpty().MaximumLength(200);
+        RuleFor(v => v.Slug).MaximumLength(200).Matches(@"^[a-z0-9-]+$")
+            .When(v => v.Slug is not null);
         RuleFor(v => v.Content).NotEmpty();
         RuleFor(v => v.Excerpt).MaximumLength(500).When(v => v.Excerpt is not null);
     }
@@ -22,11 +25,19 @@ public class UpdateBlogPostCommandValidator : AbstractValidator<UpdateBlogPostCo
 
 public class UpdateBlogPostCommandHandler : IRequestHandler<UpdateBlogPostCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private static readonly Action<ILogger, int, string, Exception?> LogUpdated =
+        LoggerMessage.Define<int, string>(
+            LogLevel.Information,
+            new EventId(2, "BlogPostUpdated"),
+            "Blog post updated. Id: {Id}, Title: {Title}");
 
-    public UpdateBlogPostCommandHandler(IApplicationDbContext context)
+    private readonly IApplicationDbContext _context;
+    private readonly ILogger<UpdateBlogPostCommandHandler> _logger;
+
+    public UpdateBlogPostCommandHandler(IApplicationDbContext context, ILogger<UpdateBlogPostCommandHandler> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public async Task Handle(UpdateBlogPostCommand request, CancellationToken cancellationToken)
@@ -38,6 +49,7 @@ public class UpdateBlogPostCommandHandler : IRequestHandler<UpdateBlogPostComman
         Guard.Against.NotFound(request.Id, blogPost);
 
         blogPost.Title = request.Title;
+        blogPost.Slug = request.Slug ?? blogPost.Slug;
         blogPost.Content = request.Content;
         blogPost.Excerpt = request.Excerpt;
         blogPost.Tags = request.Tags;
@@ -47,5 +59,7 @@ public class UpdateBlogPostCommandHandler : IRequestHandler<UpdateBlogPostComman
             blogPost.PublishedDate = DateTimeOffset.UtcNow;
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        LogUpdated(_logger, blogPost.Id, blogPost.Title, null);
     }
 }

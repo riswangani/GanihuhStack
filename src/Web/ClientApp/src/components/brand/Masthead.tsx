@@ -32,8 +32,8 @@ export default function Masthead({
   const rightItems = Array.isArray(right) ? right : [right]
   return (
     <header className={cn('w-full border-t border-ink/14 border-b-[3px] border-b-ink', className)}>
-      <div className="grid grid-cols-[1fr_auto_1fr] items-stretch">
-        <div className="flex justify-end border-r border-ink/14">
+      <div className="grid grid-cols-[1fr_auto_1fr] max-sm:grid-cols-1 items-stretch">
+        <div className="flex justify-end border-r border-ink/14 max-sm:hidden">
           {leftItems.map((it, i) => <Cell key={i} text={it} divider={i > 0} />)}
         </div>
         <Link
@@ -42,7 +42,7 @@ export default function Masthead({
         >
           {name}
         </Link>
-        <div className="flex justify-start border-l border-ink/14">
+        <div className="flex justify-start border-l border-ink/14 max-sm:hidden">
           {rightItems.map((it, i) => <Cell key={i} text={it} divider={i > 0} />)}
         </div>
       </div>
