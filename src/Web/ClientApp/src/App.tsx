@@ -4,6 +4,7 @@ import MainLayout from '@/layouts/MainLayout'
 import HomePage from '@/pages/HomePage'
 import JurnalPage from '@/pages/JurnalPage'
 import LoginPage from '@/pages/LoginPage'
+import DashboardPage from '@/pages/DashboardPage'
 
 const queryClient = new QueryClient()
 
@@ -24,7 +25,7 @@ export default function App() {
             <Route path="/about"     element={<Placeholder label="About" />} />
             <Route path="/resume"    element={<Placeholder label="Resume" />} />
             <Route path="/contact"   element={<Placeholder label="Contact" />} />
-            <Route path="/dashboard" element={<Placeholder label="Dashboard" />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/login"     element={<LoginPage />} />
           </Route>
         </Routes>
