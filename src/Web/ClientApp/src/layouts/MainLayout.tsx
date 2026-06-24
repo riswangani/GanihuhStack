@@ -6,16 +6,16 @@ import Footer from '@/components/brand/Footer'
 import { isLoggedIn, logout } from '@/services/auth'
 
 const NAV = [
-  { to: '/',          label: 'BERANDA',  end: true },
-  { to: '/now',       label: 'SEKARANG'  },
-  { to: '/blog',      label: 'JURNAL'    },
-  { to: '/projects',  label: 'PROYEK'    },
-  { to: '/about',     label: 'TENTANG'   },
+  { to: '/',          label: 'FOR YOUR PAGE',  end: true },
+  { to: '/now',       label: 'WHAT I\'M DOING'  },
+  { to: '/blog',      label: 'YAPPING'   },
+  { to: '/projects',  label: 'PROJECTS'    },
+  { to: '/about',     label: 'ABOUT'   },
   { to: '/resume',    label: 'RESUME'    },
-  { to: '/contact',   label: 'KONTAK'    },
+  { to: '/contact',   label: 'CONTACT'    },
 ]
 
-const TICKER = ['CLEAN ARCHITECTURE', '.NET', 'REACT', 'POSTGRESQL', 'BACKEND', 'ARSITEKTUR']
+const TICKER = ['CLEAN ARCHITECTURE', '.NET', 'REACT', 'POSTGRESQL', 'BACKEND', 'ARCHITECTURE']
 
 function PageNav() {
   const { pathname } = useLocation()
@@ -54,7 +54,7 @@ function PageNav() {
             onClick={handleLogout}
             className="font-sans text-[12px] font-medium tracking-[0.08em] uppercase bg-none border-none cursor-pointer text-ink-muted hover:text-ink p-0"
           >
-            KELUAR
+            LOGOUT
           </button>
         </div>
       )}

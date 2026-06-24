@@ -2,7 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode } from 'react'
 
-const buttonVariants = cva(
+export const buttonVariants = cva(
   'inline-flex items-center justify-center gap-2 font-sans text-sm font-medium tracking-[0.01em] leading-tight cursor-pointer transition-opacity hover:opacity-80 disabled:opacity-50 disabled:cursor-default no-underline',
   {
     variants: {

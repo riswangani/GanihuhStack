@@ -6,6 +6,7 @@ public record CreateBlogPostCommand : IRequest<int>
     public string Content { get; init; } = string.Empty;
     public string? Excerpt { get; init; }
     public string? Tags { get; init; }
+    public bool IsPublished { get; init; }
 }
 
 public class CreateBlogPostCommandValidator : AbstractValidator<CreateBlogPostCommand>

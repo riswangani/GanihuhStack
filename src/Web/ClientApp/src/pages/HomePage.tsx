@@ -50,13 +50,13 @@ export default function HomePage() {
         <Divider orientation="v" />
         <aside className="bg-surface-sunken p-[22px] rounded-[4px]">
           <div className="flex justify-between items-center mb-[14px]">
-            <span className="font-sans text-[12px] font-medium tracking-[0.08em] uppercase text-ink-muted">Sekarang</span>
-            <Badge>21 JUN</Badge>
+            <span className="font-sans text-[12px] font-medium tracking-[0.08em] uppercase text-ink-muted"> WHAT I'M DOING</span>
+            <Badge>{formatDate(new Date().toISOString())}</Badge>
           </div>
           <p className="font-serif text-[20px] text-ink mb-3 leading-[1.3]">
             Membangun GanihuhStack dari nol
           </p>
-          <Button variant="ghost" href="/now">Lihat fokus saat ini →</Button>
+          <Button variant="ghost" href="/now">View current focus →</Button>
         </aside>
       </div>
 
@@ -64,7 +64,7 @@ export default function HomePage() {
       <div className="h-10" />
 
       {/* Latest writing */}
-      <SectionHeading className="mb-[26px]">Tulisan terbaru</SectionHeading>
+      <SectionHeading className="mb-[26px]">Latest yapping</SectionHeading>
       {published.length === 0 ? (
         <p className="font-sans text-base text-ink-muted">Belum ada tulisan.</p>
       ) : (
@@ -72,9 +72,7 @@ export default function HomePage() {
           {featured && (
             <article>
               <ArticleMeta categories={tagsOf(featured)} date={formatDate(featured.publishedDate ?? featured.created)} />
-              <Link to="/blog" className="no-underline">
-                <Headline size="lg" className="mt-4">{featured.title}</Headline>
-              </Link>
+              <Headline size="lg" to={`/blog/${featured.slug}`} className="mt-4">{featured.title}</Headline>
               {featured.excerpt && (
                 <p className="font-sans text-base leading-[1.7] text-ink-body mt-[14px]">{featured.excerpt}</p>
               )}
@@ -85,7 +83,7 @@ export default function HomePage() {
           <div className="flex flex-col">
             {sideList.map((p, i) => (
               <>
-                <Link key={p.id} to="/blog" className="flex flex-col gap-[5px] py-4 no-underline">
+                <Link key={p.id} to={`/blog/${p.slug}`} className="flex flex-col gap-[5px] py-4 no-underline">
                   <span className="font-mono text-[11px] text-ink-muted">{formatDate(p.publishedDate ?? p.created)}</span>
                   <span className="font-serif text-[17px] text-ink leading-[1.3]">{p.title}</span>
                 </Link>
@@ -102,8 +100,8 @@ export default function HomePage() {
 
       {/* Selected projects — static until Projects endpoint exists */}
       <div className="flex justify-between items-baseline mb-[26px]">
-        <SectionHeading>Proyek pilihan</SectionHeading>
-        <Button variant="ghost" href="/projects">Semua proyek →</Button>
+        <SectionHeading>Projects</SectionHeading>
+        <Button variant="ghost" href="/projects">All projects →</Button>
       </div>
       <div className="grid grid-cols-2 gap-px bg-ink/14 border border-ink/14 max-sm:grid-cols-1">
         {STATIC_PROJECTS.map((p, i) => (

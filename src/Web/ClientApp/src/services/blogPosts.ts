@@ -34,7 +34,8 @@ export interface UpdateBlogPostRequest {
   isPublished: boolean
 }
 
-export const getBlogPosts    = () => apiFetch<BlogPostDto[]>('/api/blogposts')
-export const createBlogPost  = (data: CreateBlogPostRequest) => apiFetch<AckDto>('/api/blogposts', { method: 'POST', body: JSON.stringify(data) })
-export const updateBlogPost  = (id: number, data: UpdateBlogPostRequest) => apiFetch<AckDto>(`/api/blogposts/${id}`, { method: 'PUT', body: JSON.stringify(data) })
-export const deleteBlogPost  = (id: number) => apiFetch<AckDto>(`/api/blogposts/${id}`, { method: 'DELETE' })
+export const getBlogPosts       = () => apiFetch<BlogPostDto[]>('/api/blog-posts')
+export const getBlogPostBySlug  = (slug: string) => apiFetch<BlogPostDto>(`/api/blog-posts/${slug}`)
+export const createBlogPost  = (data: CreateBlogPostRequest) => apiFetch<AckDto>('/api/blog-posts', { method: 'POST', body: JSON.stringify(data) })
+export const updateBlogPost  = (id: number, data: UpdateBlogPostRequest) => apiFetch<AckDto>(`/api/blog-posts/${id}`, { method: 'PUT', body: JSON.stringify(data) })
+export const deleteBlogPost  = (id: number) => apiFetch<AckDto>(`/api/blog-posts/${id}`, { method: 'DELETE' })

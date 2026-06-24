@@ -28,7 +28,7 @@ function PostRow({ post }: { post: BlogPostDto }) {
       </div>
       <div>
         <ArticleMeta categories={tags.slice(1)} />
-        <Headline size="lg" className="mt-[10px]">{post.title}</Headline>
+        <Headline size="lg" to={`/blog/${post.slug}`} className="mt-[10px]">{post.title}</Headline>
         {post.excerpt && (
           <p className="font-sans text-base leading-[1.7] text-ink-body mt-3 max-w-[56ch]">{post.excerpt}</p>
         )}
@@ -49,7 +49,7 @@ export default function JurnalPage() {
   return (
     <div>
       <span className="font-sans text-[12px] font-medium tracking-[0.08em] uppercase text-ink-muted">
-        Jurnal · Semua tulisan
+        Yapping · Semua tulisan
       </span>
       <div className="h-7" />
       {published.length === 0 && (

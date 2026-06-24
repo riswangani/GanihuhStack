@@ -51,3 +51,8 @@
 /* Base */
 html, body { @apply bg-paper text-ink-body antialiased; }
 ::selection { @apply bg-accent text-accent-ink; }
+
+/* Explicit font-size utilities — @theme alone doesn't generate these with clamp() in this setup */
+.text-masthead    { font-size: clamp(44px, 5.5vw, 54px); }
+.text-headline-xl { font-size: clamp(30px, 3.5vw, 30px); }
+.text-headline-lg { font-size: clamp(26px, 3vw, 24px); }
