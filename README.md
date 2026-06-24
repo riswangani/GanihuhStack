@@ -66,7 +66,7 @@ Infrastructure → Application → Domain
 | Layer          | Location              | Responsibility                                          |
 | -------------- | --------------------- | ------------------------------------------------------- |
 | Domain         | `src/Domain/`         | Entities, pure business rules, no external dependencies |
-| Application    | `src/Application/`    | CQRS handlers, validation, interfaces                   |
+| Application    | `src/Application/`    | CQRS handlers, validation, interfaces, Business Rules   |
 | Infrastructure | `src/Infrastructure/` | EF Core, PostgreSQL, external services                  |
 | Web            | `src/Web/`            | Minimal API endpoints, HTTP concerns                    |
 

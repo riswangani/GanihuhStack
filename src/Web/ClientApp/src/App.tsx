@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import MainLayout from '@/layouts/MainLayout'
 import HomePage from '@/pages/HomePage'
 import JurnalPage from '@/pages/JurnalPage'
+import PostPage from '@/pages/PostPage'
 import LoginPage from '@/pages/LoginPage'
 import DashboardPage from '@/pages/DashboardPage'
 
@@ -21,6 +22,7 @@ export default function App() {
             <Route path="/"          element={<HomePage />} />
             <Route path="/now"       element={<Placeholder label="Now" />} />
             <Route path="/blog"      element={<JurnalPage />} />
+            <Route path="/blog/:slug" element={<PostPage />} />
             <Route path="/projects"  element={<Placeholder label="Projects" />} />
             <Route path="/about"     element={<Placeholder label="About" />} />
             <Route path="/resume"    element={<Placeholder label="Resume" />} />

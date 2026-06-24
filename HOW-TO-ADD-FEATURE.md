@@ -79,7 +79,12 @@ DbSet<Project> Projects { get; }
 dotnet ef migrations add AddProjects --project src/Infrastructure --startup-project src/Web
 dotnet ef database update --project src/Infrastructure --startup-project src/Web
 ```
-
+inget Urutan yang bener sebelum jalanin kedua migration commandline diata
+```bash
+1. Tambah Entity + DbSet + Configuration  →  (ini kode C#)
+2. migrations add                          →  (generate file migration)
+3. database update                         →  (apply ke DB)
+```
 ---
 
 ## 3. Application — CQRS

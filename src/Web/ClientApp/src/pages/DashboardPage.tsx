@@ -86,17 +86,17 @@ function PostForm({
           <input type="checkbox" checked={form.isPublished}
             onChange={e => set({ isPublished: e.target.checked })}
             className="w-4 h-4 accent-ink" />
-          <span className="font-sans text-sm text-ink">Publish sekarang</span>
+          <span className="font-sans text-sm text-ink">Publish now</span>
         </label>
-        {isError && <p className="font-sans text-sm text-red-600">Gagal menyimpan. Coba lagi.</p>}
+        {isError && <p className="font-sans text-sm text-red-600">Failed to save. Please try again.</p>}
         <div className="flex gap-3 pt-1">
           <button type="submit" disabled={isPending}
             className="font-sans text-[12px] font-semibold tracking-[0.08em] uppercase bg-ink text-paper px-5 py-2 rounded-[2px] hover:opacity-80 disabled:opacity-40 transition-opacity">
-            {isPending ? 'Menyimpan...' : editing ? 'Simpan' : 'Buat Post'}
+            {isPending ? 'Saving...' : editing ? 'Save' : 'Create Post'}
           </button>
           <button type="button" onClick={onCancel}
             className="font-sans text-[12px] font-medium tracking-[0.08em] uppercase text-ink-muted hover:text-ink">
-            Batal
+            Cancel
           </button>
         </div>
       </form>
