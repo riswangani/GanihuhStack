@@ -6,6 +6,11 @@ import ArticleMeta from '@/components/content/ArticleMeta'
 import Divider from '@/components/core/Divider'
 import { buttonVariants } from '@/components/core/Button'
 
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeHighlight from 'rehype-highlight'
+import 'highlight.js/styles/github.css'
+
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()
 }
@@ -27,8 +32,6 @@ export default function PostPage() {
 
   const tags = post.tags?.split(',').map(t => t.trim().toUpperCase()).filter(Boolean) ?? []
   const date = formatDate(post.publishedDate ?? post.created)
-  // ponytail: plain-text paragraphs; swap for markdown renderer when content format is settled
-  const paragraphs = post.content.split(/\n\n+/).filter(Boolean)
 
   return (
     <article className="max-w-[680px] mx-auto">
@@ -45,10 +48,10 @@ export default function PostPage() {
       <Divider />
       <div className="h-7" />
 
-      <div className="space-y-[22px]">
-        {paragraphs.map((p, i) => (
-          <p key={i} className="font-sans text-[17px] leading-[1.8] text-ink-body">{p}</p>
-        ))}
+      <div className="markdown-content">
+        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+          {post.content}
+        </ReactMarkdown>
       </div>
 
       <div className="h-5" />

@@ -9,8 +9,8 @@ interface Props {
 export default function ArticleMeta({ categories = [], date, className }: Props) {
   return (
     <div className={cn('w-full', className)}>
-      <div className="flex justify-between items-center gap-4 pb-[10px]">
-        <div className="flex gap-5 flex-wrap">
+      <div className="flex flex-wrap justify-between items-center gap-2 sm:gap-4 pb-[10px]">
+        <div className="flex gap-3 sm:gap-5 flex-wrap">
           {categories.map((c, i) => (
             <span key={i} className="font-sans text-eyebrow font-semibold tracking-[0.08em] uppercase text-ink">
               {c}

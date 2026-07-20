@@ -32,12 +32,11 @@ The business domain stays intentionally simple (blog posts, projects, a "what I'
 - PostgreSQL (via `Aspire.Npgsql.EntityFrameworkCore.PostgreSQL`)
 
 ### Frontend
-- React 19
-- TypeScript (strict mode)
-- Vite
-- React Router *(not yet installed — planned for Phase 1)*
-- TanStack Query (server state) *(not yet installed — planned for Phase 1)*
-- Lightweight global client state only when truly needed (e.g. Zustand) — avoid defaulting to heavy state management *(not yet installed)*
+- React 19 + TypeScript (strict mode)
+- Vite + **Bun** package manager
+- React Router
+- TanStack Query (server state)
+- Tailwind CSS v4 + shadcn/ui
 
 ### Orchestration & Local Dev
 - **.NET Aspire** — primary orchestration layer for local development and production targeting
@@ -291,10 +290,12 @@ Projects contain:
 - Now-status CRUD
 - Public portfolio pages
 
-### Phase 2 — Containerization & Production Config
-- Dockerfile for Web API (Aspire already handles local dev — Docker needed for production images)
-- Production `appsettings` and secrets management
-- Structured logging
+### Phase 2 — Containerization & Production Config *(completed)*
+- [x] Multi-stage Dockerfile for Web API (`src/Web/Dockerfile`)
+- [x] Multi-stage Dockerfile + Nginx configuration for ClientApp (`src/Web/ClientApp/Dockerfile` & `nginx.conf`)
+- [x] Local multi-container orchestration via `docker-compose.yml`
+- [x] Production `appsettings` and container environment configurations
+- [x] Kubernetes learning roadmap & `Aspirate` manifest generation strategy
 
 ### Phase 3 — CI/CD
 - GitHub Actions

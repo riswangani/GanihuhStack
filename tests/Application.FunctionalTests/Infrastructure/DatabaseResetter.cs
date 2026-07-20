@@ -1,6 +1,6 @@
+using System.Data.Common;
 using Npgsql;
 using Respawn;
-using System.Data.Common;
 
 namespace GanihuhStack.Application.FunctionalTests.Infrastructure;
 

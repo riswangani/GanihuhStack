@@ -17,12 +17,7 @@ public class AspireSetup
         var cancellationToken = cts.Token;
 
         Builder = await DistributedApplicationTestingBuilder
-             .CreateAsync<Projects.AppHost>(
-                args: [],
-                configureBuilder: (options, _) =>
-                {
-                    options.DisableDashboard = false; // Enable the dashboard for testing purposes
-                });
+             .CreateAsync<global::Projects.AppHost>(args: []);
 
         Builder.Configuration["ASPIRE_ALLOW_UNSECURED_TRANSPORT"] = "true";
 
@@ -39,17 +34,13 @@ public class AspireSetup
             clientBuilder.AddStandardResilienceHandler();
         });
 
-        App = await Builder
-            .BuildAsync(cancellationToken)
-            .WaitAsync(cancellationToken);
+        App = await Builder.BuildAsync(cancellationToken);
 
-        await App
-            .StartAsync(cancellationToken)
-            .WaitAsync(cancellationToken);
+        await App.StartAsync(cancellationToken);
 
         await Task.WhenAll(
-            App.ResourceNotifications.WaitForResourceHealthyAsync(Services.WebApi, cancellationToken).WaitAsync(cancellationToken),
-            App.ResourceNotifications.WaitForResourceHealthyAsync(Services.WebFrontend, cancellationToken).WaitAsync(cancellationToken));
+            App.ResourceNotifications.WaitForResourceHealthyAsync(Services.WebApi, cancellationToken),
+            App.ResourceNotifications.WaitForResourceHealthyAsync(Services.WebFrontend, cancellationToken));
     }
 
     [OneTimeTearDown]

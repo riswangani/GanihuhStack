@@ -31,18 +31,18 @@ export default function Masthead({
   const leftItems = Array.isArray(left) ? left : [left]
   const rightItems = Array.isArray(right) ? right : [right]
   return (
-    <header className={cn('w-full border-t border-ink/14 border-b-[3px] border-b-ink', className)}>
-      <div className="grid grid-cols-[1fr_auto_1fr] max-sm:grid-cols-1 items-stretch">
-        <div className="flex justify-end border-r border-ink/14 max-sm:hidden">
+    <header className={cn('w-full border-t border-ink/14 border-b-[3px] border-b-ink overflow-hidden', className)}>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] items-center text-center">
+        <div className="hidden lg:flex justify-end border-r border-ink/14">
           {leftItems.map((it, i) => <Cell key={i} text={it} divider={i > 0} />)}
         </div>
         <Link
           to={to}
-          className="font-sans font-bold text-masthead tracking-[0.05em] text-ink uppercase no-underline leading-none text-center whitespace-nowrap px-8 py-[22px] self-center"
+          className="font-sans font-bold text-masthead tracking-[0.03em] sm:tracking-[0.05em] text-ink uppercase no-underline leading-none text-center whitespace-nowrap px-2 sm:px-8 py-4 sm:py-[22px] self-center overflow-hidden text-ellipsis max-w-full block"
         >
           {name}
         </Link>
-        <div className="flex justify-start border-l border-ink/14 max-sm:hidden">
+        <div className="hidden lg:flex justify-start border-l border-ink/14">
           {rightItems.map((it, i) => <Cell key={i} text={it} divider={i > 0} />)}
         </div>
       </div>

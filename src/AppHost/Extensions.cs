@@ -1,6 +1,6 @@
 internal static class AspireExtensions
 {
-    public static IResourceBuilder<T> WithAspNetCoreEnvironment<T>(this IResourceBuilder<T> builder) 
+    public static IResourceBuilder<T> WithAspNetCoreEnvironment<T>(this IResourceBuilder<T> builder)
         where T : IResourceWithEnvironment
     {
         builder.WithEnvironment(context =>

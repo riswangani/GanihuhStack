@@ -1,3 +1,25 @@
 {
-  "dotnet.defaultSolution": "GanihuhStack.slnx"
+  "dotnet.defaultSolution": "GanihuhStack.slnx",
+  "terminal.integrated.profiles.windows": {
+    "Ganihuh Backend (API)": {
+      "source": "PowerShell",
+      "icon": "server",
+      "color": "terminal.ansiBlue",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "Set-Location '${workspaceFolder}/src/Web'; Clear-Host; Write-Host 'Ready to run Backend API! (Type: dotnet run)' -ForegroundColor Cyan"
+      ]
+    },
+    "Ganihuh Frontend (Vite)": {
+      "source": "PowerShell",
+      "icon": "terminal",
+      "color": "terminal.ansiGreen",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "Set-Location '${workspaceFolder}/src/Web/ClientApp'; Clear-Host; Write-Host 'Ready to run Frontend! (Type: bun run dev)' -ForegroundColor Green"
+      ]
+    }
+  }
 }
