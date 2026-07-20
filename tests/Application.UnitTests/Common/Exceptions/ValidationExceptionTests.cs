@@ -1,5 +1,5 @@
-﻿using GanihuhStack.Application.Common.Exceptions;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
+using GanihuhStack.Application.Common.Exceptions;
 using NUnit.Framework;
 using Shouldly;
 

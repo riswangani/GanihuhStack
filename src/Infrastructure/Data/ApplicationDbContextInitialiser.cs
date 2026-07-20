@@ -77,71 +77,107 @@ public class ApplicationDbContextInitialiser
                 await _userManager.AddToRolesAsync(administrator, [administratorRole.Name]);
         }
 
-        if (!_context.BlogPosts.Any(b => b.IsPublished))
+        var samplePosts = new[]
         {
-            _context.BlogPosts.AddRange(
-                new BlogPost
-                {
-                    Title = "Kenapa saya berhenti mengejar microservices",
-                    Slug = "kenapa-saya-berhenti-mengejar-microservices",
-                    Excerpt = "Modular monolith memberi 90% manfaat microservices tanpa 90% rasa sakitnya. Catatan dari memecah satu domain besar.",
-                    Tags = "Arsitektur,Backend",
-                    IsPublished = true,
-                    PublishedDate = DateTimeOffset.UtcNow.AddDays(-12),
-                    Content = """
-                        Beberapa tahun lalu saya yakin setiap sistem serius harus dipecah jadi microservices. Sekarang saya berpikir sebaliknya: kebanyakan tim mengadopsinya terlalu dini, dan membayar ongkos operasional yang besar untuk masalah yang belum mereka punya.
+            new BlogPost
+            {
+                Title = "Kenapa saya memilih Clean Architecture dan Markdown Journal",
+                Slug = "kenapa-saya-memilih-clean-architecture",
+                Excerpt = "Modular monolith memberi 90% manfaat microservices tanpa 90% rasa sakitnya. Catatan dari memecah satu domain besar dan mengintegrasikan Markdown.",
+                Tags = "Arsitektur,Backend,Markdown",
+                IsPublished = true,
+                PublishedDate = DateTimeOffset.UtcNow.AddDays(-2),
+                Content = """
+                    Beberapa tahun lalu saya yakin setiap sistem serius harus dipecah jadi microservices. Sekarang saya berpikir sebaliknya: kebanyakan tim mengadopsinya terlalu dini, dan membayar ongkos operasional yang besar untuk masalah yang belum mereka punya.
 
-                        Batas itu murah, jaringan itu mahal.
+                    ## Arsitektur Visual Sistem
 
-                        Modular monolith memberi batas domain yang tegas — modul tidak boleh saling memanggil sembarangan — tanpa memindahkan setiap panggilan fungsi ke jaringan. Anda mendapat keterpisahan logis tanpa kompleksitas distribusi.
+                    Berikut adalah gambaran ruang kerja dan estetika pengembangan sistem ini:
 
-                        Ketika satu modul benar-benar perlu diskalakan terpisah, batas yang sudah tegas tadi membuat ekstraksi jadi pekerjaan setengah hari, bukan setengah tahun. Anda menunda keputusan sampai punya data, bukan menebak di awal.
+                    ![Ruang Kerja Engineering](https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80)
 
-                        Pelajaran yang saya ambil: mulai dengan modul yang bersih, bukan layanan yang terpisah. Pisahkan ketika ada tekanan nyata — bukan ketika ada rasa takut bahwa nanti tidak bisa.
-                        """
-                },
-                new BlogPost
-                {
-                    Title = "Test yang mensimulasikan kegagalan, bukan happy path",
-                    Slug = "test-yang-mensimulasikan-kegagalan",
-                    Excerpt = "Test yang cuma menguji kondisi ideal memberi rasa aman palsu. Bagaimana saya menulis test untuk timeout dan partisi jaringan.",
-                    Tags = "Pengujian,Backend",
-                    IsPublished = true,
-                    PublishedDate = DateTimeOffset.UtcNow.AddDays(-27),
-                    Content = """
-                        Saya pernah punya test suite dengan coverage 90% yang tetap membiarkan bug lolos ke production. Masalahnya bukan jumlah test — tapi semua test menguji kondisi ideal.
+                    ### Batas Domain yang Jelas
 
-                        Happy path adalah skenario yang paling jarang terjadi di dunia nyata.
+                    Modular monolith memberi batas domain yang tegas — modul tidak boleh saling memanggil sembarangan — tanpa memindahkan setiap panggilan fungsi ke jaringan. Anda mendapat keterpisahan logis tanpa kompleksitas distribusi.
 
-                        Jaringan putus. Database lambat tiba-tiba. Payload datang terpotong. Third-party API mengembalikan 500 tanpa pesan. Kondisi inilah yang perlu diuji, bukan hanya "kalau semuanya berjalan mulus, hasilnya benar."
+                    * **Domain Layer**: Entitas murni tanpa dependensi eksternal.
+                    * **Application Layer**: CQRS Handlers + FluentValidation.
+                    * **Infrastructure Layer**: EF Core + PostgreSQL.
+                    * **Web Layer**: Minimal API endpoints yang bersih.
 
-                        Cara praktis yang saya terapkan: untuk setiap external call, tulis minimal satu test yang mensimulasikan kegagalannya. Timeout, koneksi ditolak, respons malformed. Biarkan test itu membuktikan bahwa sistem gagal dengan baik — bukan crash diam-diam.
+                    > "Keindahan perangkat lunak tidak hanya terlihat pada performa aplikasinya di layar pengguna, melainkan dari kerapian kodenya di balik layar."
 
-                        Test yang membuat Anda tidur nyenyak bukan yang menguji bahwa semuanya bekerja. Tapi yang membuktikan bahwa ketika rusak, rusaknya terkendali.
-                        """
-                },
-                new BlogPost
-                {
-                    Title = "Kenapa saya menulis commit message panjang",
-                    Slug = "kenapa-saya-menulis-commit-message-panjang",
-                    Excerpt = "Commit message adalah surat untuk diri sendiri enam bulan ke depan. Sedikit usaha sekarang, banyak waktu terselamatkan nanti.",
-                    Tags = "Kebiasaan",
-                    IsPublished = true,
-                    PublishedDate = DateTimeOffset.UtcNow.AddDays(-45),
-                    Content = """
-                        Dulu saya menulis commit message seperti kebanyakan orang: "fix bug", "update", "wip". Cepat, tidak ada gesekan. Sampai suatu hari saya harus debugging regresi yang masuk enam bulan lalu dan tidak ada petunjuk sama sekali dari git log.
+                    ### Contoh MediatR Handler di C#
 
-                        Commit message bukan untuk kamu sekarang. Untuk kamu yang bingung pukul 11 malam enam bulan lagi.
+                    ```csharp
+                    public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, int>
+                    {
+                        private readonly IApplicationDbContext _context;
 
-                        Format yang saya pakai sekarang: baris pertama berisi apa yang berubah (singkat, present tense). Lalu baris kosong. Lalu paragraf kenapa — konteks yang tidak terlihat dari diff: constraint bisnis yang memaksa keputusan ini, bug yang dipicu skenario tertentu, trade-off yang sengaja dipilih.
+                        public CreateProjectCommandHandler(IApplicationDbContext context) => _context = context;
 
-                        Tidak perlu panjang. Tiga sampai empat kalimat sudah cukup untuk menyelamatkan satu jam debugging di masa depan. Itu investasi dengan return yang sangat jelas.
-                        """
-                }
-            );
+                        public async Task<int> Handle(CreateProjectCommand request, CancellationToken ct)
+                        {
+                            var project = new Project { Name = request.Name };
+                            _context.Projects.Add(project);
+                            await _context.SaveChangesAsync(ct);
+                            return project.Id;
+                        }
+                    }
+                    ```
 
-            await _context.SaveChangesAsync(CancellationToken.None);
+                    Pelajaran yang saya ambil: mulai dengan modul yang bersih, bukan layanan yang terpisah. Pisahkan ketika ada tekanan nyata — bukan ketika ada rasa takut bahwa nanti tidak bisa.
+                    """
+            },
+            new BlogPost
+            {
+                Title = "Test yang mensimulasikan kegagalan, bukan happy path",
+                Slug = "test-yang-mensimulasikan-kegagalan",
+                Excerpt = "Test yang cuma menguji kondisi ideal memberi rasa aman palsu. Bagaimana saya menulis test untuk timeout dan partisi jaringan.",
+                Tags = "Pengujian,Backend",
+                IsPublished = true,
+                PublishedDate = DateTimeOffset.UtcNow.AddDays(-27),
+                Content = """
+                    Saya pernah punya test suite dengan coverage 90% yang tetap membiarkan bug lolos ke production. Masalahnya bukan jumlah test — tapi semua test menguji kondisi ideal.
+
+                    Happy path adalah skenario yang paling jarang terjadi di dunia nyata.
+
+                    Jaringan putus. Database lambat tiba-tiba. Payload datang terpotong. Third-party API mengembalikan 500 tanpa pesan. Kondisi inilah yang perlu diuji, bukan hanya "kalau semuanya berjalan mulus, hasilnya benar."
+
+                    Cara praktis yang saya terapkan: untuk setiap external call, tulis minimal satu test yang mensimulasikan kegagalannya. Timeout, koneksi ditolak, respons malformed. Biarkan test itu membuktikan bahwa sistem gagal dengan baik — bukan crash diam-diam.
+
+                    Test yang membuat Anda tidur nyenyak bukan yang menguji bahwa semuanya bekerja. Tapi yang membuktikan bahwa ketika rusak, rusaknya terkendali.
+                    """
+            },
+            new BlogPost
+            {
+                Title = "Kenapa saya menulis commit message panjang",
+                Slug = "kenapa-saya-menulis-commit-message-panjang",
+                Excerpt = "Commit message adalah surat untuk diri sendiri enam bulan ke depan. Sedikit usaha sekarang, banyak waktu terselamatkan nanti.",
+                Tags = "Kebiasaan",
+                IsPublished = true,
+                PublishedDate = DateTimeOffset.UtcNow.AddDays(-45),
+                Content = """
+                    Dulu saya menulis commit message seperti kebanyakan orang: "fix bug", "update", "wip". Cepat, tidak ada gesekan. Sampai suatu hari saya harus debugging regresi yang masuk enam bulan lalu dan tidak ada petunjuk sama sekali dari git log.
+
+                    Commit message bukan untuk kamu sekarang. Untuk kamu yang bingung pukul 11 malam enam bulan lagi.
+
+                    Format yang saya pakai sekarang: baris pertama berisi apa yang berubah (singkat, present tense). Lalu baris kosong. Lalu paragraf kenapa — konteks yang tidak terlihat dari diff: constraint bisnis yang memaksa keputusan ini, bug yang dipicu skenario tertentu, trade-off yang sengaja dipilih.
+
+                    Tidak perlu panjang. Tiga sampai empat kalimat sudah cukup untuk menyelamatkan satu jam debugging di masa depan. Itu investasi dengan return yang sangat jelas.
+                    """
+            }
+        };
+
+        foreach (var post in samplePosts)
+        {
+            if (!_context.BlogPosts.Any(b => b.Slug == post.Slug))
+            {
+                _context.BlogPosts.Add(post);
+            }
         }
+
+        await _context.SaveChangesAsync(CancellationToken.None);
     }
 }
 

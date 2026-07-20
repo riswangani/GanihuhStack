@@ -70,7 +70,7 @@ public static class TestApp
         if (result.Succeeded)
         {
             _userId = user.Id;
-            _roles = [..roles];
+            _roles = [.. roles];
             return _userId;
         }
 

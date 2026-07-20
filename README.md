@@ -135,39 +135,81 @@ GanihuhStack/
 
 ## Running Locally
 
-Prerequisites: [.NET 10 SDK](https://dotnet.microsoft.com/download), [Node.js 20+](https://nodejs.org/), [.NET Aspire workload](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/setup-tooling)
+Prerequisites: [.NET 10 SDK](https://dotnet.microsoft.com/download), [Bun](https://bun.sh/), [.NET Aspire workload](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/setup-tooling)
+
+### Option A: Via .NET Aspire (Daily Development — Recommended)
+
+Gunakan opsi ini saat koding fitur harian. Tidak perlu me-build image Docker secara manual.
 
 ```bash
-# Install Aspire workload (first time only)
+# 1. Pastikan Aspire workload terinstall (sekali saja)
 dotnet workload install aspire
 
-# Install frontend dependencies
+# 2. Install dependency frontend (Bun)
 cd src/Web/ClientApp
-npm install
-
-# Run everything via Aspire AppHost
+bun install
 cd ../../..
+
+# 3. Jalankan orchestrator Aspire
 dotnet run --project src/AppHost
 ```
 
-Aspire will start the Web API, React frontend, and PostgreSQL automatically.
-Open the Aspire dashboard to see all services and logs.
+Aspire akan menyalakan Web API, React Frontend (Vite + Bun), dan PostgreSQL secara otomatis. Dashboard observabilitas (Traces, Logs, Metrics) dapat diakses via URL dashboard yang tampil di terminal.
+
+### Option B: Via Docker Compose (Testing Container Environment)
+
+Gunakan opsi ini jika ingin mengetes integrasi multi-container lokal (Web API, React ClientApp, PostgreSQL) sebelum deploy ke VPS/Cloud.
+
+**Prasyarat:** [Docker Desktop](https://www.docker.com/products/docker-desktop/) atau Docker Engine dalam kondisi *running*.
+
+```bash
+# Build & jalankan semua container di background
+docker compose up --build
+
+# Untuk menghentikan & membersihkan container
+docker compose down
+```
+
+**End-point Services:**
+- **Frontend (React + Nginx)**: `http://localhost:3000`
+- **Backend (Web API + Scalar Docs)**: `http://localhost:8080/scalar/v1`
+- **Database (PostgreSQL 17)**: `localhost:5432` (User: `postgres`, Pass: `Password123!`)
+
+### Option C: Future Kubernetes Testing (Aspirate + k3d)
+
+Gunakan opsi ini saat ingin belajar & mengetes deployment Kubernetes di laptop:
+
+```bash
+# 1. Install CLI Aspirate (sekali saja)
+dotnet tool install -g Aspirate
+
+# 2. Generate manifes Kubernetes / Helm Chart dari Aspire AppHost
+aspirate generate
+
+# 3. Apply manifes ke cluster Kubernetes lokal (k3d / Minikube)
+kubectl apply -f k8s/
+```
 
 ---
 
 ## Roadmap
 
-### Phase 1 — MVP _(in progress)_
+### Phase 1 — MVP _(completed)_
 
 - [x] Project setup (Clean Architecture + React + Vite)
 - [x] .NET Aspire orchestration
 - [x] Authentication
 - [x] Blog CRUD (backend + public page + dashboard)
-- [ ] Projects CRUD
-- [ ] Now-status CRUD
-- [ ] Remaining public pages (Now, Projects, About, Contact)
+- [x] Projects CRUD (backend + public page + dashboard)
+- [x] Now-status CRUD (backend + public page + dashboard)
+- [x] Public portfolio pages (Now, Projects, About, Contact, Resume)
 
-### Phase 2 — Containerization & Production Config
+### Phase 2 — Containerization & Production Config _(completed)_
+
+- [x] Multi-stage Dockerfile for Web API (`src/Web/Dockerfile`)
+- [x] Multi-stage Dockerfile + Nginx for ClientApp (`src/Web/ClientApp/Dockerfile` & `nginx.conf`)
+- [x] Local multi-container orchestration (`docker-compose.yml`)
+- [x] Kubernetes learning roadmap & `Aspirate` manifest generation strategy
 
 ### Phase 3 — CI/CD (GitHub Actions)
 

@@ -11,7 +11,13 @@
       "cwd": "${workspaceFolder}/src/AppHost",
       "stopAtEntry": false,
       "env": {
-        "DOTNET_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:15264",
+        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true",
+        "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19278",
+        "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19278",
+        "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "http://localhost:20158"
       },
       "serverReadyAction": {
         "action": "openExternally",

@@ -1,127 +1,160 @@
-﻿# For more info on HTTP files go to https://aka.ms/vs/httpfile
+# GanihuhStack API Testing File
 @Web_HostAddress = https://localhost:7277
 @AuthCookieName = .AspNetCore.Identity.Application
 @AuthCookieValue = <AuthCookieValue>
 
-# GET Identity Account Login
-# Get the @RequestVerificationToken necessary for logging in.
-GET {{Web_HostAddress}}/Identity/Account/Login
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. AUTH / IDENTITY
+# ─────────────────────────────────────────────────────────────────────────────
 
-###
-
-# POST Identity Account Login
-# Get the @AuthCookieValue necessary for authenticating requests.
-@Email=administrator@localhost
-@Password=Administrator1!
-@RequestVerificationToken=<RequestVerificationToken>
-POST {{Web_HostAddress}}/Identity/Account/Login
-Content-Type: application/x-www-form-urlencoded
-
-Input.Email={{Email}}&Input.Password={{Password}}&__RequestVerificationToken={{RequestVerificationToken}}
-
-###
-
-# GET WeatherForecast
-GET {{Web_HostAddress}}/api/WeatherForecasts
-Cookie: {{AuthCookieName}}={{AuthCookieValue}}
-
-###
-
-# GET TodoLists
-GET {{Web_HostAddress}}/api/TodoLists
-Cookie: {{AuthCookieName}}={{AuthCookieValue}}
-
-###
-
-#GET TodoList
-GET {{Web_HostAddress}}/api/TodoLists/1
-Cookie: {{AuthCookieName}}={{AuthCookieValue}}
-
-###
-
-# POST TodoLists
-POST {{Web_HostAddress}}/api/TodoLists
-Cookie: {{AuthCookieName}}={{AuthCookieValue}}
+### POST Account Register (Register Admin)
+POST {{Web_HostAddress}}/register
 Content-Type: application/json
 
-// CreateTodoListCommand
 {
-  "Title": "Backlog"
+  "email": "administrator@localhost",
+  "password": "Administrator1!"
 }
 
 ###
 
-# PUT TodoLists
-PUT {{Web_HostAddress}}/api/TodoLists/1
-Cookie: {{AuthCookieName}}={{AuthCookieValue}}
+### POST Account Login (Cookie-based auth)
+POST {{Web_HostAddress}}/login
 Content-Type: application/json
 
-// UpdateTodoListCommand
 {
-  "Id": 1,
-  "Title": "Product Backlog"
+  "email": "administrator@localhost",
+  "password": "Administrator1!"
 }
 
 ###
 
-# DELETE TodoLists
-DELETE {{Web_HostAddress}}/api/TodoLists/1
-Cookie: {{AuthCookieName}}={{AuthCookieValue}}
-
-###
-
-# GET TodoItems
-@PageNumber = 1
-@PageSize = 10
-GET {{Web_HostAddress}}/api/TodoItems?ListId=1&PageNumber={{PageNumber}}&PageSize={{PageSize}}
-Cookie: {{AuthCookieName}}={{AuthCookieValue}}
-
-###
-
-# POST TodoItems
-POST {{Web_HostAddress}}/api/TodoItems
-Cookie: {{AuthCookieName}}={{AuthCookieValue}}
+### POST Account Login (Bearer token auth)
+POST {{Web_HostAddress}}/login?useCookies=false
 Content-Type: application/json
 
-// CreateTodoItemCommand
 {
-  "ListId": 1,
-  "Title": "Eat a burrito 🌯"
+  "email": "administrator@localhost",
+  "password": "Administrator1!"
 }
 
 ###
 
-#PUT TodoItems UpdateItemDetails
-PUT {{Web_HostAddress}}/api/TodoItems/UpdateItemDetails?Id=1
+# ─────────────────────────────────────────────────────────────────────────────
+# 2. BLOG POSTS
+# ─────────────────────────────────────────────────────────────────────────────
+
+### GET All Blog Posts
+GET {{Web_HostAddress}}/api/blog-posts
+
+###
+
+### GET Blog Post by Slug
+GET {{Web_HostAddress}}/api/blog-posts/membangun-ganihuhstack
+
+###
+
+### POST Create Blog Post (Requires Auth Cookie/Bearer)
+POST {{Web_HostAddress}}/api/blog-posts
 Cookie: {{AuthCookieName}}={{AuthCookieValue}}
 Content-Type: application/json
 
-// UpdateTodoItemDetailCommand
+{
+  "Title": "Membangun GanihuhStack",
+  "Content": "Ini adalah postingan blog pertama mengenai pembuatan GanihuhStack dengan .NET Aspire dan React.",
+  "Excerpt": "Postingan perdana di blog pribadi saya.",
+  "Tags": "dotnet, react, aspire"
+}
+
+###
+
+### PUT Update Blog Post (Requires Auth)
+PUT {{Web_HostAddress}}/api/blog-posts/1
+Cookie: {{AuthCookieName}}={{AuthCookieValue}}
+Content-Type: application/json
+
 {
   "Id": 1,
-  "ListId": 1,
-  "Priority": 3,
-  "Note": "This is a good idea!"
+  "Title": "Membangun GanihuhStack v1.0",
+  "Content": "Update isi postingan blog pertama saya.",
+  "Excerpt": "Update postingan perdana.",
+  "Tags": "dotnet, react, aspire, clean-architecture",
+  "IsPublished": true
 }
 
 ###
 
-# PUT TodoItems
-PUT {{Web_HostAddress}}/api/TodoItems/1
+### DELETE Blog Post (Requires Auth)
+DELETE {{Web_HostAddress}}/api/blog-posts/1
+Cookie: {{AuthCookieName}}={{AuthCookieValue}}
+
+###
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 3. PROJECTS
+# ─────────────────────────────────────────────────────────────────────────────
+
+### GET All Projects
+GET {{Web_HostAddress}}/api/projects
+
+###
+
+### POST Create Project (Requires Auth)
+POST {{Web_HostAddress}}/api/projects
 Cookie: {{AuthCookieName}}={{AuthCookieValue}}
 Content-Type: application/json
 
-// UpdateTodoItemCommand
 {
-  "Id": 1,
-  "Title": "Eat a yummy burrito 🌯",
-  "Done": true
+  "Name": "GanihuhStack Personal Site",
+  "Description": "Personal portfolio website, technical blog, and knowledge management platform.",
+  "Technologies": "React 19, ASP.NET Core 10, PostgreSQL, .NET Aspire, Tailwind CSS",
+  "RepositoryUrl": "https://github.com/riswangani/GanihuhStack",
+  "DemoUrl": "https://ganihuhstack.local",
+  "IsFeatured": true
 }
 
 ###
 
-# DELETE TodoItem
-DELETE {{Web_HostAddress}}/api/TodoItems/1
+### PUT Update Project (Requires Auth)
+PUT {{Web_HostAddress}}/api/projects/1
+Cookie: {{AuthCookieName}}={{AuthCookieValue}}
+Content-Type: application/json
+
+{
+  "Id": 1,
+  "Name": "GanihuhStack Portal",
+  "Description": "Revised description for personal portal.",
+  "Technologies": "React, .NET, PostgreSQL",
+  "RepositoryUrl": "https://github.com/riswangani/GanihuhStack",
+  "DemoUrl": "https://ganihuhstack.local",
+  "IsFeatured": true
+}
+
+###
+
+### DELETE Project (Requires Auth)
+DELETE {{Web_HostAddress}}/api/projects/1
 Cookie: {{AuthCookieName}}={{AuthCookieValue}}
 
 ###
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 4. NOW STATUS
+# ─────────────────────────────────────────────────────────────────────────────
+
+### GET Current Now Status
+GET {{Web_HostAddress}}/api/now-status
+
+###
+
+### POST Update Now Status (Requires Auth)
+POST {{Web_HostAddress}}/api/now-status
+Cookie: {{AuthCookieName}}={{AuthCookieValue}}
+Content-Type: application/json
+
+{
+  "CurrentFocus": "Menyelesaikan modul modul MVP pada GanihuhStack",
+  "Details": "Fokus minggu ini adalah menyelesaikan backend CQRS dan frontend page styling bertema editorial.",
+  "CurrentlyReading": "Clean Architecture oleh Robert C. Martin",
+  "Mood": "Produktif dan Bersemangat 🚀"
+}

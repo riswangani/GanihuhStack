@@ -53,6 +53,35 @@
       }
     },
     {
+      "label": "Run Backend API",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}/src/Web/Web.csproj"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/src/Web"
+      },
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Run Full Stack (Separate)",
+      "dependsOn": [
+        "Run Backend API",
+        "Run Frontend"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "presentation": {
+        "panel": "new"
+      }
+    },
+    {
       "label": "publish",
       "command": "dotnet",
       "type": "process",

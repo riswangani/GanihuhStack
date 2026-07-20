@@ -6,12 +6,13 @@ import JurnalPage from '@/pages/JurnalPage'
 import PostPage from '@/pages/PostPage'
 import LoginPage from '@/pages/LoginPage'
 import DashboardPage from '@/pages/DashboardPage'
+import NowPage from '@/pages/NowPage'
+import ProjectsPage from '@/pages/ProjectsPage'
+import AboutPage from '@/pages/AboutPage'
+import ResumePage from '@/pages/ResumePage'
+import ContactPage from '@/pages/ContactPage'
 
 const queryClient = new QueryClient()
-
-function Placeholder({ label }: { label: string }) {
-  return <p className="text-ink-muted py-12 text-sm">{label} — coming soon</p>
-}
 
 export default function App() {
   return (
@@ -20,13 +21,13 @@ export default function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/"          element={<HomePage />} />
-            <Route path="/now"       element={<Placeholder label="Now" />} />
+            <Route path="/now"       element={<NowPage />} />
             <Route path="/blog"      element={<JurnalPage />} />
             <Route path="/blog/:slug" element={<PostPage />} />
-            <Route path="/projects"  element={<Placeholder label="Projects" />} />
-            <Route path="/about"     element={<Placeholder label="About" />} />
-            <Route path="/resume"    element={<Placeholder label="Resume" />} />
-            <Route path="/contact"   element={<Placeholder label="Contact" />} />
+            <Route path="/projects"  element={<ProjectsPage />} />
+            <Route path="/about"     element={<AboutPage />} />
+            <Route path="/resume"    element={<ResumePage />} />
+            <Route path="/contact"   element={<ContactPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/login"     element={<LoginPage />} />
           </Route>
@@ -35,3 +36,4 @@ export default function App() {
     </QueryClientProvider>
   )
 }
+
