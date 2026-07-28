@@ -1,4 +1,4 @@
-using GanihuhStack.Domain.Entities;
+using GanihuhStack.Domain.Entities.Projects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,6 +1,9 @@
 using System.Reflection;
 using GanihuhStack.Application.Common.Interfaces;
-using GanihuhStack.Domain.Entities;
+using GanihuhStack.Domain.Entities.BlogPosts;
+using GanihuhStack.Domain.Entities.Identity;
+using GanihuhStack.Domain.Entities.NowStatuses;
+using GanihuhStack.Domain.Entities.Projects;
 using GanihuhStack.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -15,6 +18,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<NowStatus> NowStatuses => Set<NowStatus>();
+    public DbSet<UserSession> UserSessions => Set<UserSession>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -28,5 +32,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
         builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
         builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
         builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+        builder.Entity<UserSession>().ToTable("UserSessions");
     }
 }

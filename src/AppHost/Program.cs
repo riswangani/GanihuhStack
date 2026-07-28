@@ -10,8 +10,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 //    .AddDatabase(Services.Database);
 
 var web = builder.AddProject<Projects.Web>(Services.WebApi)
-    // .WithReference(databaseServer)
-    // .WaitFor(databaseServer)
+    .WithEndpoint("http", endpoint => endpoint.Port = 5056)
     .WithExternalHttpEndpoints()
     .WithAspNetCoreEnvironment()
     .WithUrlForEndpoint("http", url =>
@@ -26,7 +25,7 @@ if (builder.ExecutionContext.IsRunMode)
         .WithBun()
         .WithRunScript("dev")
         .WithReference(web)
-        // .WaitFor(web)
+        .WithEndpoint("http", endpoint => endpoint.Port = 5173)
         .WithExternalHttpEndpoints();
 }
 

@@ -1,9 +1,12 @@
-﻿global using Ardalis.GuardClauses;
+global using Ardalis.GuardClauses;
 global using AutoMapper;
 global using AutoMapper.QueryableExtensions;
 global using FluentValidation;
 global using GanihuhStack.Application.Common.Interfaces;
-global using GanihuhStack.Domain.Entities;
+global using GanihuhStack.Domain.Entities.BlogPosts;
+global using GanihuhStack.Domain.Entities.Identity;
+global using GanihuhStack.Domain.Entities.NowStatuses;
+global using GanihuhStack.Domain.Entities.Projects;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging;

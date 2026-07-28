@@ -497,7 +497,9 @@ $RECYCLE.BIN/
 
 # Local connection strings and credentials (override appsettings.json for local dev)
 # Real credentials go here — never committed
-src/Web/appsettings.Development.json
+appsettings.Development.json
+**/appsettings.Development.json
+appsettings.Production.json
 
 # Environment variable files
 .env

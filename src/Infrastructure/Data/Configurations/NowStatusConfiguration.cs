@@ -1,4 +1,4 @@
-using GanihuhStack.Domain.Entities;
+using GanihuhStack.Domain.Entities.NowStatuses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

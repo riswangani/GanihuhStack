@@ -1,3 +1,4 @@
+using GanihuhStack.Domain.Entities.BlogPosts;
 using GanihuhStack.Domain.Constants;
 using GanihuhStack.Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;

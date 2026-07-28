@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using GanihuhStack.Domain.Common;
 
-namespace GanihuhStack.Domain.Entities;
+namespace GanihuhStack.Domain.Entities.BlogPosts;
 
 public class BlogPost : BaseAuditableEntity
 {
