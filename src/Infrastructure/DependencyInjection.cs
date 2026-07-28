@@ -54,9 +54,16 @@ public static class DependencyInjection
             opts.ForwardDefaultSelector = ctx =>
             {
                 var auth = ctx.Request.Headers.Authorization.FirstOrDefault();
-                return auth?.StartsWith("Bearer ") == true
-                    ? IdentityConstants.BearerScheme
-                    : IdentityConstants.ApplicationScheme;
+                if (auth?.StartsWith("Bearer ") == true)
+                    return IdentityConstants.BearerScheme;
+
+                if (ctx.Request.Cookies.TryGetValue("access_token", out var token) && !string.IsNullOrEmpty(token))
+                {
+                    ctx.Request.Headers.Authorization = $"Bearer {token}";
+                    return IdentityConstants.BearerScheme;
+                }
+
+                return IdentityConstants.ApplicationScheme;
             };
         });
         authBuilder.AddBearerToken(IdentityConstants.BearerScheme);
