@@ -21,8 +21,6 @@ export default defineConfig({
       '/api': apiTarget,
       '/openapi': apiTarget,
       '/scalar': apiTarget,
-      '/weatherforecast': apiTarget,
-      '/WeatherForecast': apiTarget,
     },
   },
 })

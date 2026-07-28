@@ -1,6 +1,6 @@
 using GanihuhStack.Domain.Common;
 
-namespace GanihuhStack.Domain.Entities;
+namespace GanihuhStack.Domain.Entities.Projects;
 
 public class Project : BaseAuditableEntity
 {

@@ -1,4 +1,4 @@
-﻿using GanihuhStack.Application.Common.Interfaces;
+using GanihuhStack.Application.Common.Interfaces;
 using GanihuhStack.Infrastructure.Data;
 using GanihuhStack.Infrastructure.Data.Interceptors;
 using GanihuhStack.Infrastructure.Identity;
@@ -74,5 +74,7 @@ public static class DependencyInjection
 
         builder.Services.AddSingleton(TimeProvider.System);
         builder.Services.AddTransient<IIdentityService, IdentityService>();
+
+        builder.Services.AddHttpClient<IEmailService, GanihuhStack.Infrastructure.Services.ResendEmailService>();
     }
 }

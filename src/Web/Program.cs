@@ -1,4 +1,5 @@
 using GanihuhStack.Infrastructure.Data;
+using GanihuhStack.Web.Infrastructure;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +29,8 @@ app.UseHttpsRedirection();
 app.UseCors(static builder =>
     builder.AllowAnyMethod()
         .AllowAnyHeader()
-        .AllowAnyOrigin());
+        .SetIsOriginAllowed(_ => true)
+        .AllowCredentials());
 
 app.UseFileServer();
 
@@ -43,6 +45,9 @@ app.MapScalarApiReference(options =>
 
 app.UseExceptionHandler(options => { });
 
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseMiddleware<AuthSessionMiddleware>();
 
 app.MapDefaultEndpoints();
 app.MapEndpoints(typeof(Program).Assembly);
