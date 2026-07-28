@@ -56,6 +56,7 @@ The business domain stays intentionally simple (blog posts, projects, a "what I'
 - Redis
 - Hangfire or a lightweight background job runner
 - RabbitMQ
+- Object Storage (MinIO for local dev, AWS S3 / Azure Blob for production)
 - OpenTelemetry, Prometheus, Grafana (Aspire's ServiceDefaults already wires up OpenTelemetry stubs)
 
 ---
@@ -325,11 +326,17 @@ Projects contain:
 
 ### Phase 6 — Background work / events
 - Redis, background jobs, event-driven features
+- Object Storage integration (MinIO for local dev, AWS S3/Azure Blob for production) for media and attachments
 
 ### Phase 7 — Extended content modules
 - `Notes` — study notes/snippets module
 - `Uses` — tools/gear list
-- `Resume` — `Experiences`, `Skills`, `Certificates` entities feeding a `/resume` page
+- `Resume` — Dynamic CV page generated from `Experiences`, `Skills`, `Certificates` & `Education` database entities
+  - Admin CRUD in `/dashboard`
+  - Single aggregated API endpoint (`GET /api/resume`) with Redis caching
+  - Print-friendly PDF export (`@media print` stylesheet)
+  - Interactive skill-highlight filtering
+  - SEO JSON-LD Structured Data
 - `ReadingList`, `Bookmarks`, `LearningRoadmaps` (stretch)
 
 ---

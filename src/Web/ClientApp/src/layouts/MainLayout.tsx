@@ -1,9 +1,9 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
-import Masthead from '@/components/brand/Masthead'
-import TickerBar from '@/components/brand/TickerBar'
-import Footer from '@/components/brand/Footer'
-import { isLoggedIn, logout } from '@/services/auth'
+import Masthead from '@/components/organisms/Masthead'
+import TickerBar from '@/components/organisms/TickerBar'
+import Footer from '@/components/organisms/Footer'
+import { isLoggedIn, logout } from '@/features/auth'
 
 const NAV = [
   { to: '/',          label: 'FOR YOUR PAGE',  end: true },

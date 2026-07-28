@@ -26,8 +26,12 @@ public class BlogPosts : IEndpointGroup
         return TypedResults.Ok(result);
     }
 
+    // GET /api/blog-posts
+    // ISender disuntikkan secara otomatis oleh Dependency Injection .NET
     public static async Task<Ok<List<BlogPostDto>>> GetBlogPosts(ISender sender)
     {
+        // sender.Send(new GetBlogPostsQuery()) mengirim perintah pesan ke MediatR.
+        // MediatR akan mencari GetBlogPostsQueryHandler secara otomatis lalu memanggil method .Handle() di dalamnya.
         var result = await sender.Send(new GetBlogPostsQuery());
         return TypedResults.Ok(result);
     }
