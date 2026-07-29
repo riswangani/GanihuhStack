@@ -1,9 +1,6 @@
 import React from 'react'
-import SectionHeading from '@/components/molecules/SectionHeading'
-import Divider from '@/components/atoms/Divider'
-import ResumeHeader from '@/features/resume/ResumeHeader'
-import WorkExperienceSection, { RowItem } from '@/features/resume/WorkExperienceSection'
-import TechnicalSkillsSection from '@/features/resume/TechnicalSkillsSection'
+import { SectionHeading, Divider } from '@/shared/ui'
+import { ResumeHeader, WorkExperienceSection, TechnicalSkillsSection, RowItem } from '@/features/resume'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (

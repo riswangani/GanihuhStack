@@ -3,13 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { getBlogPosts, type BlogPostDto } from '@/features/blog'
 import { getCurrentNowStatus } from '@/features/now-status'
-import Headline from '@/components/molecules/Headline'
-import SectionHeading from '@/components/molecules/SectionHeading'
-import ArticleMeta from '@/components/molecules/ArticleMeta'
-import Badge from '@/components/atoms/Badge'
-import Button from '@/components/atoms/Button'
-import Divider from '@/components/atoms/Divider'
-import Tag from '@/components/atoms/Tag'
+import { Headline, SectionHeading, ArticleMeta, Badge, Button, Divider, Tag } from '@/shared/ui'
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()

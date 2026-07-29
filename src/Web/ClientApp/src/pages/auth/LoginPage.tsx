@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login } from '@/features/auth'
-import Headline from '@/components/molecules/Headline'
-import Button from '@/components/atoms/Button'
+import { Headline, Button } from '@/shared/ui'
 
 export default function LoginPage() {
   const [email,    setEmail]    = useState('')

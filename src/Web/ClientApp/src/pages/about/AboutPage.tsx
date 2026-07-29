@@ -1,7 +1,4 @@
-import Headline from '@/components/molecules/Headline'
-import SectionHeading from '@/components/molecules/SectionHeading'
-import Divider from '@/components/atoms/Divider'
-import Tag from '@/components/atoms/Tag'
+import { Headline, SectionHeading, Divider, Tag } from '@/shared/ui'
 
 export default function AboutPage() {
   const stacks = {

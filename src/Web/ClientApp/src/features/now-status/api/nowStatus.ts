@@ -1,4 +1,4 @@
-import apiFetch from '@/lib/api-client'
+import apiFetch from '@/shared/api/api-client'
 import type { AckDto } from '@/features/blog/api/blogPosts'
 
 export interface NowStatusDto {
