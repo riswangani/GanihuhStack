@@ -22,7 +22,7 @@ function Cell({ text, divider }: { text: string; divider: boolean }) {
 }
 
 export default function Masthead({
-  name = 'GANIHUHSTACK',
+  name = 'ITWORKSONMY.COM',
   left = ['RISWAN GANI', 'DEV'],
   right = ['EST. 2026', 'NO. 014'],
   to = '/',
@@ -38,7 +38,7 @@ export default function Masthead({
         </div>
         <Link
           to={to}
-          className="font-sans font-bold text-masthead tracking-[0.03em] sm:tracking-[0.05em] text-ink uppercase no-underline leading-none text-center whitespace-nowrap px-2 sm:px-8 py-4 sm:py-[22px] self-center overflow-hidden text-ellipsis max-w-full block"
+          className="font-sans font-bold text-masthead tracking-[0.03em] sm:tracking-[0.04em] text-ink uppercase no-underline leading-none text-center whitespace-nowrap px-2 sm:px-6 py-4 sm:py-[20px] self-center block shrink-0"
         >
           {name}
         </Link>

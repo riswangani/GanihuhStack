@@ -32,7 +32,7 @@
     <PackageReference Include="Scalar.AspNetCore" />
   </ItemGroup>
 
-  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish" Condition="'$(PublishRunWebpack)' != 'false'">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="bun install" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="bun run build" />

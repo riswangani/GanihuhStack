@@ -2,77 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "icon": { "color": "terminal.ansiGreen", "id": "terminal-cmd" },
-      "label": "dotnet",
-      "type": "shell",
-      "command": "pwsh",
-      "options": {
-        "cwd": "${workspaceFolder}/src/AppHost"
-      },
-      "isBackground": true,
-      "problemMatcher": [],
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
-    },
-    {
-      "icon": { "color": "terminal.ansiCyan", "id": "editor-layout" },
-      "label": "bun",
-      "type": "shell",
-      "command": "pwsh",
-      "args": ["-Command", "bun i"],
-      "options": {
-        "cwd": "${workspaceFolder}/src/Web/ClientApp/"
-      },
-      "isBackground": true,
-      "problemMatcher": [],
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
-    },
-    {
-      "icon": { "color": "terminal.ansiMagenta", "id": "terminal-bash" },
-      "label": "vite",
-      "type": "shell",
-      "command": "pwsh",
-      "options": {
-        "cwd": "${workspaceFolder}/src/Web/ClientApp/"
-      },
-      "isBackground": true,
-      "problemMatcher": [],
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
-    },
-    {
-      "icon": { "color": "terminal.ansiBlue", "id": "database" },
-      "label": "migration",
-      "type": "shell",
-      "command": "pwsh",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "isBackground": true,
-      "problemMatcher": [],
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
-    },
-    {
-      "icon": { "color": "terminal.ansiYellow", "id": "server-process" },
-      "label": "aspire",
-      "type": "shell",
-      "command": "pwsh",
-      "options": {
-        "cwd": "${workspaceFolder}/src/AppHost"
-      },
-      "isBackground": true,
-      "problemMatcher": [],
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
-    },
-    {
       "icon": { "color": "terminal.ansiCyan", "id": "github" },
       "label": "git",
       "type": "shell",
@@ -87,6 +16,35 @@
       }
     },
     {
+      "icon": { "color": "terminal.ansiBlue", "id": "server" },
+      "label": "docker",
+      "type": "shell",
+      "command": "pwsh",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "icon": { "color": "terminal.ansiGreen", "id": "terminal-cmd" },
+      "label": "dotnet",
+      "type": "shell",
+      "command": "pwsh",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "icon": { "color": "terminal.ansiYellow", "id": "tools" },
       "label": "build",
       "command": "dotnet",
       "type": "process",
@@ -97,87 +55,6 @@
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "build-web",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "build",
-        "${workspaceFolder}/src/Web/Web.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "publish",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "publish",
-        "${workspaceFolder}/src/AppHost/AppHost.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "Run Aspire AppHost",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/src/AppHost/AppHost.csproj"
-      ],
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "panel": "new"
-      }
-    },
-    {
-      "label": "Run Frontend (Bun)",
-      "type": "shell",
-      "command": "bun run dev",
-      "group": "build",
-      "problemMatcher": [],
-      "options": {
-        "cwd": "${workspaceFolder}/src/Web/ClientApp"
-      },
-      "presentation": {
-        "panel": "new"
-      }
-    },
-    {
-      "label": "Run Backend API",
-      "type": "process",
-      "command": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/src/Web/Web.csproj"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/src/Web"
-      },
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "panel": "new"
-      }
-    },
-    {
-      "label": "Docker Compose Up",
-      "type": "shell",
-      "command": "docker compose up --build",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "panel": "new"
-      }
     }
   ]
 }
