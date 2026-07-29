@@ -52,7 +52,7 @@ export default function HomePage() {
               <Badge>{nowStatus ? formatDate(nowStatus.created) : formatDate(new Date().toISOString())}</Badge>
             </div>
             <p className="font-serif text-[20px] text-ink mb-3 leading-[1.3]">
-              {nowStatus ? nowStatus.currentFocus : 'Membangun GanihuhStack dari nol'}
+              {nowStatus ? nowStatus.currentFocus : 'Membangun itworksonmy.com dari nol'}
             </p>
           </div>
           <Button variant="ghost" href="/now">View current focus →</Button>
