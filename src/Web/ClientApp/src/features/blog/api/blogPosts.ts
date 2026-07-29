@@ -1,4 +1,4 @@
-import apiFetch from '@/lib/api-client'
+import apiFetch from '@/shared/api/api-client'
 
 export interface BlogPostDto {
   id: number

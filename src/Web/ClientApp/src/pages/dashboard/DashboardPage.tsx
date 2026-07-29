@@ -5,8 +5,10 @@ import { isLoggedIn } from '@/features/auth'
 import { getBlogPosts } from '@/features/blog'
 import { getProjects } from '@/features/projects'
 import { getCurrentNowStatus } from '@/features/now-status'
-import { cn } from '@/lib/utils'
-import { BlogManagementTab, ProjectsManagementTab, NowStatusManagementTab } from '@/features/dashboard'
+import { cn } from '@/shared/lib/utils'
+import { BlogManagementTab } from '@/widgets/blog-management'
+import { ProjectsManagementTab } from '@/widgets/projects-management'
+import { NowStatusManagementTab } from '@/widgets/now-status-management'
 
 export default function DashboardPage() {
   const navigate = useNavigate()

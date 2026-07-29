@@ -168,33 +168,62 @@ Aspire is the **primary orchestration mechanism** for this project. Understandin
 
 ---
 
-## 6. Frontend
+## 6. Frontend Architecture (Feature-Sliced Design)
 
 **Location**: `src/Web/ClientApp/` (NOT `frontend/` at root — that directory is empty and unused)
 
 **How it runs**: AppHost launches it via `AddNpmApp(...).WithRunScript("dev")` — run the AppHost project to start everything together.
 
-**Current state**: Plain Vite + React 19 starter template. React Router, TanStack Query, and Zustand are **not yet installed**.
+**Architecture Standard**: **Feature-Sliced Design (FSD)** (retrieved via Context7 MCP from official FSD documentation).
 
 ### Principles
-- Strongly typed throughout — **no `any`** unless absolutely unavoidable, and justified with a comment when used
-- Feature-based folder structure, mirroring backend feature grouping where it makes sense
-- TanStack Query for all server state — don't duplicate server data into client state
-- Global client state (Zustand or similar) only for things that are genuinely cross-cutting (auth session, theme, UI shell state) — not as a default
+- Strongly typed throughout — **no `any`** unless absolutely unavoidable, and justified with a comment when used.
+- **Strict FSD Layering Rules**: Code in lower layers CANNOT import from higher layers (`shared` ← `entities` ← `features` ← `widgets` ← `pages` ← `app`).
+- TanStack Query for all server state — don't duplicate server data into client state.
+- Global client state (Zustand or similar) only for things that are genuinely cross-cutting (auth session, theme, UI shell state).
 
-### Target structure (to build toward)
+### FSD Layer Hierarchy
 
 ```
 src/Web/ClientApp/src/
-├── features/
-├── pages/
-├── components/
-├── services/
-├── router/
-├── store/
-├── layouts/
-└── shared/
+├── app/                 # Top layer: App initialization, providers, styles, router
+│   ├── router/          # AppRouter & Route declarations
+│   ├── styles/          # Global CSS (index.css, App.css)
+│   └── App.tsx          # Root App Component with Providers
+├── pages/               # Page views / Route endpoints
+│   ├── home/            # HomePage slice
+│   ├── now/             # NowPage slice
+│   ├── blog/            # JurnalPage & PostPage slices
+│   ├── projects/        # ProjectsPage slice
+│   ├── about/           # AboutPage slice
+│   ├── resume/          # ResumePage slice
+│   ├── contact/         # ContactPage slice
+│   ├── dashboard/       # DashboardPage slice
+│   └── auth/            # LoginPage slice
+├── widgets/             # Autonomous composition blocks
+│   ├── layout/          # MainLayout & navigation shell
+│   ├── blog-management/ # Admin management tab for blog posts
+│   ├── projects-management/ # Admin management tab for projects
+│   └── now-status-management/ # Admin management tab for now-status
+├── features/            # User interactions & business actions
+│   ├── auth/            # Login/logout & user session API
+│   ├── blog/            # Blog CRUD queries/mutations
+│   ├── projects/        # Projects CRUD queries/mutations
+│   ├── now-status/      # Now-status UI cards & API hooks
+│   └── resume/          # Resume header & experience sections
+└── shared/              # Reusable domain-agnostic foundation
+    ├── api/             # api-client.ts (fetch wrapper)
+    ├── lib/             # utils.ts (Tailwind cn helper)
+    └── ui/              # Component UI subfolders (button/, badge/, tag/, headline/, masthead/, footer/)
 ```
+
+### Segment Naming in Slices
+Inside slices (e.g. `features/now-status` or `widgets/layout`), code is organized into standard FSD segments:
+- `ui/`: React UI components
+- `api/`: API fetchers, TanStack Query hooks
+- `model/`: State management, schemas, data types
+- `lib/`: Helper utilities
+- `index.ts`: Public API export (barrel file)
 
 ---
 

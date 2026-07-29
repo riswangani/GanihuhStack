@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getProjects } from '@/features/projects'
-import Headline from '@/components/molecules/Headline'
-import Divider from '@/components/atoms/Divider'
-import Tag from '@/components/atoms/Tag'
+import { Headline, Divider, Tag } from '@/shared/ui'
 
 function formatTechStack(techStr: string | null) {
   return techStr?.split(',').map(t => t.trim()).filter(Boolean) ?? []

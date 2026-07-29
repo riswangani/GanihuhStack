@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getCurrentNowStatus, getNowStatusHistory, ActiveFocusCard, NowStatusHistoryList } from '@/features/now-status'
-import Headline from '@/components/molecules/Headline'
-import Divider from '@/components/atoms/Divider'
+import { Headline, Divider } from '@/shared/ui'
 
 export default function NowPage() {
   const { data: status, isLoading } = useQuery({

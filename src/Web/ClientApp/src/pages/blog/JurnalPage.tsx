@@ -1,9 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { getBlogPosts, type BlogPostDto } from '@/features/blog'
-import Headline from '@/components/molecules/Headline'
-import ArticleMeta from '@/components/molecules/ArticleMeta'
-import Divider from '@/components/atoms/Divider'
+import { Headline, ArticleMeta, Divider } from '@/shared/ui'
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()

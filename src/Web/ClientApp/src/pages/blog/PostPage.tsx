@@ -1,10 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getBlogPostBySlug } from '@/features/blog'
-import Headline from '@/components/molecules/Headline'
-import ArticleMeta from '@/components/molecules/ArticleMeta'
-import Divider from '@/components/atoms/Divider'
-import { buttonVariants } from '@/components/atoms/Button'
+import { Headline, ArticleMeta, Divider, buttonVariants } from '@/shared/ui'
 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'

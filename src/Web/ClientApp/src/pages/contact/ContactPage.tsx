@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import Headline from '@/components/molecules/Headline'
-import SectionHeading from '@/components/molecules/SectionHeading'
-import Divider from '@/components/atoms/Divider'
+import { Headline, SectionHeading, Divider } from '@/shared/ui'
 
 const inputCls = 'w-full font-sans text-sm text-ink bg-surface border border-ink/20 rounded-[2px] px-3 py-2 focus:outline-none focus:border-ink placeholder:text-ink-faint'
 
