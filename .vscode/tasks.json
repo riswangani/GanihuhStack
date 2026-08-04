@@ -35,7 +35,7 @@
       "type": "shell",
       "command": "pwsh",
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}/src/AppHost"
       },
       "isBackground": true,
       "problemMatcher": [],
@@ -55,6 +55,20 @@
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
-    }
+    },
+    {
+      "icon": { "color": "terminal.ansiMagenta", "id": "terminal-bash" },
+      "label": "react vite",
+      "type": "shell",
+      "command": "pwsh",
+      "options": {
+        "cwd": "${workspaceFolder}/src/Web/ClientApp/"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
   ]
 }

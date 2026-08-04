@@ -46,7 +46,7 @@ public class ResendEmailService : IEmailService
         };
 
         var json = JsonSerializer.Serialize(payload);
-        requestMessage.Content = new StringContent(json, Encoding.UTF8, "application.json");
+        requestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
         try
         {

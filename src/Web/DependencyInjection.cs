@@ -30,8 +30,6 @@ public static class DependencyInjection
             options.AddOperationTransformer<ApiExceptionOperationTransformer>();
             options.AddOperationTransformer<IdentityApiOperationTransformer>();
         });
-
-        builder.Services.AddCors();
     }
 
     public static void AddKeyVaultIfConfigured(this IHostApplicationBuilder builder)
