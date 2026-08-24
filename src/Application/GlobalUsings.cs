@@ -7,6 +7,7 @@ global using GanihuhStack.Domain.Entities.BlogPosts;
 global using GanihuhStack.Domain.Entities.Identity;
 global using GanihuhStack.Domain.Entities.NowStatuses;
 global using GanihuhStack.Domain.Entities.Projects;
+global using GanihuhStack.Domain.Entities.Skills;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging;

@@ -57,6 +57,12 @@ html, body { @apply bg-paper text-ink-body antialiased; }
 .text-headline-xl { font-size: clamp(22px, 4.5vw, 30px); }
 .text-headline-lg { font-size: clamp(18px, 3.8vw, 24px); }
 
+/* Ticker marquee: content duplicated in TickerBar, animated left-to-right, seamless loop */
+@keyframes ticker-scroll {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0%); }
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera / Firefox */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

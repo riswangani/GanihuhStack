@@ -74,7 +74,7 @@ export default function ProjectsManagementTab({
   }
 
   function handleDelete(p: ProjectDto) {
-    if (!window.confirm(`Hapus proyek "${p.name}"?`)) return
+    if (!window.confirm(`Delete project "${p.name}"?`)) return
     deleteMut.mutate(p.id)
   }
 
@@ -83,10 +83,10 @@ export default function ProjectsManagementTab({
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="font-sans text-base font-semibold text-ink">Kelola Proyek Portfolio</h2>
+        <h2 className="font-sans text-base font-semibold text-ink">Manage Portfolio Projects</h2>
         {!showForm && (
           <button onClick={openCreate} className="font-sans text-[12px] font-semibold tracking-[0.08em] uppercase bg-ink text-paper px-4 py-2 rounded-[2px] hover:opacity-85 transition-opacity">
-            + Tambah Proyek
+            + Add Project
           </button>
         )}
       </div>
@@ -94,36 +94,36 @@ export default function ProjectsManagementTab({
       {showForm && (
         <div className="border border-ink/14 rounded-[2px] p-6 mb-8 bg-surface">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="font-serif text-[18px] font-bold text-ink">{editing ? 'Edit Proyek' : 'Proyek Baru'}</h3>
-            <button onClick={closeForm} className="font-sans text-sm text-ink-muted hover:text-ink">Batal</button>
+            <h3 className="font-serif text-[18px] font-bold text-ink">{editing ? 'Edit Project' : 'New Project'}</h3>
+            <button onClick={closeForm} className="font-sans text-sm text-ink-muted hover:text-ink">Cancel</button>
           </div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <Field label="Nama Proyek *">
-              <input value={form.name} onChange={e => set({ name: e.target.value })} required className={inputCls} placeholder="Nama proyek" />
+            <Field label="Project Name *">
+              <input value={form.name} onChange={e => set({ name: e.target.value })} required className={inputCls} placeholder="Project name" />
             </Field>
-            <Field label="Deskripsi">
-              <textarea value={form.description} onChange={e => set({ description: e.target.value })} rows={4} className={inputCls} placeholder="Jelaskan detail proyek..." />
+            <Field label="Description">
+              <textarea value={form.description} onChange={e => set({ description: e.target.value })} rows={4} className={inputCls} placeholder="Describe the project..." />
             </Field>
-            <Field label="Teknologi">
-              <input value={form.technologies} onChange={e => set({ technologies: e.target.value })} className={inputCls} placeholder="React, C#, PostgreSQL (pisahkan dengan koma)" />
+            <Field label="Technologies">
+              <input value={form.technologies} onChange={e => set({ technologies: e.target.value })} className={inputCls} placeholder="React, C#, PostgreSQL (comma-separated)" />
             </Field>
-            <Field label="URL Repositori (GitHub)">
+            <Field label="Repository URL (GitHub)">
               <input type="url" value={form.repositoryUrl} onChange={e => set({ repositoryUrl: e.target.value })} className={inputCls} placeholder="https://github.com/..." />
             </Field>
-            <Field label="URL Demo (Live Web)">
+            <Field label="Demo URL (Live Site)">
               <input type="url" value={form.demoUrl} onChange={e => set({ demoUrl: e.target.value })} className={inputCls} placeholder="https://..." />
             </Field>
             <label className="flex items-center gap-3 cursor-pointer select-none">
               <input type="checkbox" checked={form.isFeatured} onChange={e => set({ isFeatured: e.target.checked })} className="w-4 h-4 accent-ink" />
-              <span className="font-sans text-sm text-ink">Featured Project (Tampilkan Utama)</span>
+              <span className="font-sans text-sm text-ink">Featured Project (show prominently)</span>
             </label>
-            {(createMut.isError || updateMut.isError) && <p className="font-sans text-sm text-red-600">Gagal menyimpan data.</p>}
+            {(createMut.isError || updateMut.isError) && <p className="font-sans text-sm text-red-600">Failed to save data.</p>}
             <div className="flex gap-3 pt-1">
               <button type="submit" disabled={createMut.isPending || updateMut.isPending} className="font-sans text-[12px] font-semibold tracking-[0.08em] uppercase bg-ink text-paper px-5 py-2.5 rounded-[2px] hover:opacity-85 disabled:opacity-40 transition-opacity">
-                {createMut.isPending || updateMut.isPending ? 'Menyimpan...' : editing ? 'Simpan' : 'Tambah Proyek'}
+                {createMut.isPending || updateMut.isPending ? 'Saving...' : editing ? 'Save' : 'Add Project'}
               </button>
               <button type="button" onClick={closeForm} className="font-sans text-[12px] font-medium tracking-[0.08em] uppercase text-ink-muted hover:text-ink">
-                Batal
+                Cancel
               </button>
             </div>
           </form>
@@ -131,9 +131,9 @@ export default function ProjectsManagementTab({
       )}
 
       {isLoading ? (
-        <p className="font-sans text-sm text-ink-muted py-8">Memuat proyek...</p>
+        <p className="font-sans text-sm text-ink-muted py-8">Loading projects...</p>
       ) : projects.length === 0 ? (
-        <p className="font-sans text-sm text-ink-muted py-8 bg-surface-sunken text-center rounded-[2px]">Belum ada proyek terdaftar.</p>
+        <p className="font-sans text-sm text-ink-muted py-8 bg-surface-sunken text-center rounded-[2px]">No projects yet.</p>
       ) : (
         <div className="border border-ink/14 rounded-[2px] overflow-hidden">
           {projects.map((proj, i) => (
@@ -152,7 +152,7 @@ export default function ProjectsManagementTab({
                   Edit
                 </button>
                 <button onClick={() => handleDelete(proj)} disabled={deleteMut.isPending} className="font-sans text-[12px] font-medium uppercase tracking-[0.06em] text-ink-muted hover:text-red-600 disabled:opacity-40">
-                  Hapus
+                  Delete
                 </button>
               </div>
             </div>

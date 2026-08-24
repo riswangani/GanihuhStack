@@ -75,7 +75,7 @@ export default function BlogManagementTab({
   }
 
   function handleDelete(p: BlogPostDto) {
-    if (!window.confirm(`Hapus "${p.title}"?`)) return
+    if (!window.confirm(`Delete "${p.title}"?`)) return
     deleteMut.mutate(p.id)
   }
 
@@ -84,10 +84,10 @@ export default function BlogManagementTab({
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="font-sans text-base font-semibold text-ink">Kelola Tulisan Blog</h2>
+        <h2 className="font-sans text-base font-semibold text-ink">Manage Blog Posts</h2>
         {!showForm && (
           <button onClick={openCreate} className="font-sans text-[12px] font-semibold tracking-[0.08em] uppercase bg-ink text-paper px-4 py-2 rounded-[2px] hover:opacity-85 transition-opacity">
-            + Tulis Post
+            + Write Post
           </button>
         )}
       </div>
@@ -95,18 +95,18 @@ export default function BlogManagementTab({
       {showForm && (
         <div className="border border-ink/14 rounded-[2px] p-6 mb-8 bg-surface">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="font-serif text-[18px] font-bold text-ink">{editing ? 'Edit Post' : 'Post Baru'}</h3>
-            <button onClick={closeForm} className="font-sans text-sm text-ink-muted hover:text-ink">Batal</button>
+            <h3 className="font-serif text-[18px] font-bold text-ink">{editing ? 'Edit Post' : 'New Post'}</h3>
+            <button onClick={closeForm} className="font-sans text-sm text-ink-muted hover:text-ink">Cancel</button>
           </div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <Field label="Judul *">
-              <input value={form.title} onChange={e => set({ title: e.target.value })} required className={inputCls} placeholder="Judul post" />
+            <Field label="Title *">
+              <input value={form.title} onChange={e => set({ title: e.target.value })} required className={inputCls} placeholder="Post title" />
             </Field>
-            <Field label="Konten *">
-              <textarea value={form.content} onChange={e => set({ content: e.target.value })} required rows={10} className={cn(inputCls, 'font-mono text-sm resize-y')} placeholder="Tulis konten di sini..." />
+            <Field label="Content *">
+              <textarea value={form.content} onChange={e => set({ content: e.target.value })} required rows={10} className={cn(inputCls, 'font-mono text-sm resize-y')} placeholder="Write the content here..." />
             </Field>
             <Field label="Excerpt">
-              <textarea value={form.excerpt} onChange={e => set({ excerpt: e.target.value })} rows={2} className={cn(inputCls, 'resize-none')} placeholder="Ringkasan singkat (opsional)" />
+              <textarea value={form.excerpt} onChange={e => set({ excerpt: e.target.value })} rows={2} className={cn(inputCls, 'resize-none')} placeholder="Short summary (optional)" />
             </Field>
             <Field label="Tags">
               <input value={form.tags} onChange={e => set({ tags: e.target.value })} className={inputCls} placeholder="dotnet, react, architecture" />
@@ -120,13 +120,13 @@ export default function BlogManagementTab({
               <input type="checkbox" checked={form.isPublished} onChange={e => set({ isPublished: e.target.checked })} className="w-4 h-4 accent-ink" />
               <span className="font-sans text-sm text-ink">Publish now</span>
             </label>
-            {(createMut.isError || updateMut.isError) && <p className="font-sans text-sm text-red-600">Gagal menyimpan data.</p>}
+            {(createMut.isError || updateMut.isError) && <p className="font-sans text-sm text-red-600">Failed to save data.</p>}
             <div className="flex gap-3 pt-1">
               <button type="submit" disabled={createMut.isPending || updateMut.isPending} className="font-sans text-[12px] font-semibold tracking-[0.08em] uppercase bg-ink text-paper px-5 py-2.5 rounded-[2px] hover:opacity-85 disabled:opacity-40 transition-opacity">
-                {createMut.isPending || updateMut.isPending ? 'Menyimpan...' : editing ? 'Simpan' : 'Buat Post'}
+                {createMut.isPending || updateMut.isPending ? 'Saving...' : editing ? 'Save' : 'Create Post'}
               </button>
               <button type="button" onClick={closeForm} className="font-sans text-[12px] font-medium tracking-[0.08em] uppercase text-ink-muted hover:text-ink">
-                Batal
+                Cancel
               </button>
             </div>
           </form>
@@ -134,9 +134,9 @@ export default function BlogManagementTab({
       )}
 
       {isLoading ? (
-        <p className="font-sans text-sm text-ink-muted py-8">Memuat tulisan...</p>
+        <p className="font-sans text-sm text-ink-muted py-8">Loading posts...</p>
       ) : posts.length === 0 ? (
-        <p className="font-sans text-sm text-ink-muted py-8 bg-surface-sunken text-center rounded-[2px]">Belum ada postingan blog. Silakan buat postingan perdana!</p>
+        <p className="font-sans text-sm text-ink-muted py-8 bg-surface-sunken text-center rounded-[2px]">No blog posts yet. Write your first one!</p>
       ) : (
         <div className="border border-ink/14 rounded-[2px] overflow-hidden">
           {posts.map((post, i) => (
@@ -155,7 +155,7 @@ export default function BlogManagementTab({
                   Edit
                 </button>
                 <button onClick={() => handleDelete(post)} disabled={deleteMut.isPending} className="font-sans text-[12px] font-medium uppercase tracking-[0.06em] text-ink-muted hover:text-red-600 disabled:opacity-40">
-                  Hapus
+                  Delete
                 </button>
               </div>
             </div>
