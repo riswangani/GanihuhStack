@@ -13,7 +13,6 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 const CONTACTS = [
   { label: 'Email', handle: 'riswangani11@gmail.com', href: 'mailto:riswangani11@gmail.com' },
-  { label: 'Phone', handle: '+62 853 1505 1806', href: 'tel:+6285315051806' },
   { label: 'Location', handle: 'DKI Jakarta, Indonesia', href: '#' },
   { label: 'GitHub', handle: 'github.com/riswangani', href: 'https://github.com/riswangani' },
   { label: 'LinkedIn', handle: 'linkedin.com/in/riswangp', href: 'https://linkedin.com/in/riswangp' },

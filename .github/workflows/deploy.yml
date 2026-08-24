@@ -1,0 +1,51 @@
+name: Deploy to MonsterASP
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# a newer push cancels any older run still queued/running, so pushes made
+# close together don't pile up waiting for windows-latest runners
+concurrency:
+  group: deploy-monsterasp
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    # WebDeploy (msdeploy) only works from a Windows runner
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', 'Directory.Packages.props') }}
+          restore-keys: ${{ runner.os }}-nuget-
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Cache bun install
+        uses: actions/cache@v4
+        with:
+          path: ~\AppData\Local\bun\install\cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('src/Web/ClientApp/bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-
+
+      - name: Publish (also builds React via the PublishRunWebpack MSBuild target)
+        run: dotnet publish src/Web/Web.csproj -c Release -o publish_output
+
+      - name: Deploy to MonsterASP.NET via WebDeploy
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+        with:
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
+          source-path: publish_output

@@ -1,0 +1,17 @@
+name: Keep Supabase Awake
+
+on:
+  # Supabase free tier pauses a project after 7 days with no DB activity.
+  # Sunday + Wednesday gives a comfortable safety margin either way.
+  schedule:
+    - cron: '0 0 * * 0,3'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query Supabase to count as activity
+        env:
+          DB_URI: ${{ secrets.SUPABASE_DB_URI }}
+        run: psql "$DB_URI" -c "SELECT 1;"
