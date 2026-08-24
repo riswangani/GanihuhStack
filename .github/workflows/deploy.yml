@@ -1,0 +1,37 @@
+name: Deploy to MonsterASP
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    # WebDeploy (msdeploy) only works from a Windows runner
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - uses: oven-sh/setup-bun@v2
+
+      # ponytail: no secrets baked into the build. Supabase connection string and
+      # Resend API key live in MonsterASP's own panel (Scripting -> Environment
+      # Variables, as ConnectionStrings__GanihuhStackDb / Resend__ApiKey) — they
+      # persist across deploys, so CI only ever ships code, never secrets.
+      # --runtime win-x86 matches MonsterASP's free-tier shared IIS pool.
+      # ponytail: bump to win-x64 if your control panel says the app pool is 64-bit.
+      - name: Publish (also builds React via the PublishRunWebpack MSBuild target)
+        run: dotnet publish src/Web/Web.csproj -c Release -o publish_output --runtime win-x86 --self-contained false
+
+      - name: Deploy to MonsterASP.NET via WebDeploy
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+        with:
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
+          source-path: publish_output
