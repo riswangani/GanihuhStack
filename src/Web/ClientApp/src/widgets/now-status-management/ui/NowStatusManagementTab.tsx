@@ -43,7 +43,7 @@ export default function NowStatusManagementTab({
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['nowStatus'] })
       qc.invalidateQueries({ queryKey: ['nowStatusHistory'] })
-      alert('Status "Sekarang" berhasil diperbarui!')
+      alert('"Now" status updated successfully!')
     }
   })
 
@@ -58,32 +58,32 @@ export default function NowStatusManagementTab({
   }
 
   if (isLoading) {
-    return <p className="font-sans text-sm text-ink-muted py-8">Memuat status saat ini...</p>
+    return <p className="font-sans text-sm text-ink-muted py-8">Loading current status...</p>
   }
 
   return (
     <div className="border border-ink/14 rounded-[2px] p-6 bg-surface max-w-[650px]">
-      <h2 className="font-sans text-base font-semibold text-ink mb-1">Perbarui Status Sekarang</h2>
-      <p className="font-sans text-xs text-ink-muted mb-6">Setiap pembaruan akan menyimpan riwayat status baru dan ditampilkan di halaman publik /now.</p>
-      
+      <h2 className="font-sans text-base font-semibold text-ink mb-1">Update Now Status</h2>
+      <p className="font-sans text-xs text-ink-muted mb-6">Each update saves a new history entry and is shown on the public /now page.</p>
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <Field label="Fokus Utama Saat Ini *">
-          <input value={focus} onChange={e => setFocus(e.target.value)} required className={inputCls} placeholder="Contoh: Membangun modul portofolio di GanihuhStack" />
+        <Field label="Current Main Focus *">
+          <input value={focus} onChange={e => setFocus(e.target.value)} required className={inputCls} placeholder="e.g. Building the portfolio module in GanihuhStack" />
         </Field>
-        <Field label="Detail Tambahan (Markdown / Deskripsi)">
-          <textarea value={details} onChange={e => setDetails(e.target.value)} rows={5} className={inputCls} placeholder="Tulis rincian aktivitas Anda saat ini..." />
+        <Field label="Additional Details (Markdown / Description)">
+          <textarea value={details} onChange={e => setDetails(e.target.value)} rows={5} className={inputCls} placeholder="Describe what you're currently working on..." />
         </Field>
-        <Field label="Buku yang Sedang Dibaca">
-          <input value={reading} onChange={e => setReading(e.target.value)} className={inputCls} placeholder="Judul Buku (Penulis)" />
+        <Field label="Currently Reading">
+          <input value={reading} onChange={e => setReading(e.target.value)} className={inputCls} placeholder="Book Title (Author)" />
         </Field>
-        <Field label="Mood / Keadaan">
-          <input value={mood} onChange={e => setMood(e.target.value)} className={inputCls} placeholder="Produktif, Santai, Semangat, dll." />
+        <Field label="Mood / State">
+          <input value={mood} onChange={e => setMood(e.target.value)} className={inputCls} placeholder="Productive, Relaxed, Motivated, etc." />
         </Field>
 
-        {updateMut.isError && <p className="font-sans text-sm text-red-600">Gagal memperbarui status.</p>}
-        
+        {updateMut.isError && <p className="font-sans text-sm text-red-600">Failed to update status.</p>}
+
         <button type="submit" disabled={updateMut.isPending} className="font-sans text-[12px] font-semibold tracking-[0.08em] uppercase bg-ink text-paper px-5 py-2.5 rounded-[2px] self-start hover:opacity-85 disabled:opacity-40 transition-opacity mt-2">
-          {updateMut.isPending ? 'Memperbarui...' : 'Simpan Status Baru'}
+          {updateMut.isPending ? 'Updating...' : 'Save New Status'}
         </button>
       </form>
     </div>

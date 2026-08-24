@@ -1,7 +1,9 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import { cn } from '@/shared/lib/utils'
 import { Masthead, TickerBar, Footer } from '@/shared/ui'
 import { isLoggedIn, logout } from '@/features/auth'
+import { getSkills } from '@/features/skills'
 
 const NAV = [
   { to: '/',          label: 'FOR YOUR PAGE',  end: true },
@@ -13,7 +15,7 @@ const NAV = [
   { to: '/contact',   label: 'CONTACT'    },
 ]
 
-const TICKER = ['CLEAN ARCHITECTURE', '.NET', 'REACT', 'POSTGRESQL', 'BACKEND', 'ARCHITECTURE']
+const FALLBACK_TICKER = ['CLEAN ARCHITECTURE', '.NET','GO', 'REACT', 'SVELTE', 'VUE','POSTGRESQL', 'MS SQL SERVER','BACKEND', 'ARCHITECTURE']
 
 function PageNav() {
   const { pathname } = useLocation()
@@ -62,6 +64,9 @@ function PageNav() {
 
 export default function MainLayout() {
   useLocation() // re-render on navigate so isLoggedIn() stays fresh
+  const { data: skills = [] } = useQuery({ queryKey: ['skills'], queryFn: getSkills })
+  const tickerItems = skills.length > 0 ? skills.map(s => s.name) : FALLBACK_TICKER
+
   return (
     <div className="min-h-screen bg-paper flex flex-col overflow-x-hidden">
       <div className="w-full max-w-[1040px] mx-auto px-4 sm:px-6 box-border flex-1 flex flex-col">
@@ -69,7 +74,7 @@ export default function MainLayout() {
           <Masthead />
         </div>
         <div className="border-b border-ink/14">
-          <TickerBar items={TICKER} />
+          <TickerBar items={tickerItems} />
         </div>
         <PageNav />
         <main className="py-11 pb-16 flex-1">

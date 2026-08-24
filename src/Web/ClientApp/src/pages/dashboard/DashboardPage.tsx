@@ -5,15 +5,17 @@ import { isLoggedIn } from '@/features/auth'
 import { getBlogPosts } from '@/features/blog'
 import { getProjects } from '@/features/projects'
 import { getCurrentNowStatus } from '@/features/now-status'
+import { getSkills } from '@/features/skills'
 import { cn } from '@/shared/lib/utils'
 import { BlogManagementTab } from '@/widgets/blog-management'
 import { ProjectsManagementTab } from '@/widgets/projects-management'
 import { NowStatusManagementTab } from '@/widgets/now-status-management'
+import { SkillsManagementTab } from '@/widgets/skills-management'
 
 export default function DashboardPage() {
   const navigate = useNavigate()
   const qc = useQueryClient()
-  const [activeTab, setActiveTab] = useState<'blog' | 'projects' | 'now'>('blog')
+  const [activeTab, setActiveTab] = useState<'blog' | 'projects' | 'now' | 'skills'>('blog')
 
   useEffect(() => {
     if (!isLoggedIn()) {
@@ -24,6 +26,7 @@ export default function DashboardPage() {
   const { data: posts = [], isLoading: loadingPosts } = useQuery({ queryKey: ['blogPosts'], queryFn: getBlogPosts })
   const { data: projects = [], isLoading: loadingProjects } = useQuery({ queryKey: ['projects'], queryFn: getProjects })
   const { data: currentStatus, isLoading: loadingNow } = useQuery({ queryKey: ['nowStatus'], queryFn: getCurrentNowStatus })
+  const { data: skills = [], isLoading: loadingSkills } = useQuery({ queryKey: ['skills'], queryFn: getSkills })
 
   if (!isLoggedIn()) return null
 
@@ -31,8 +34,8 @@ export default function DashboardPage() {
     <div>
       <div className="flex flex-col gap-6">
         <div>
-          <h1 className="font-serif text-[32px] font-bold text-ink leading-snug">Dashboard Admin</h1>
-          <p className="font-sans text-sm text-ink-muted mt-1">Kelola seluruh data portfolio dan konten personal Anda.</p>
+          <h1 className="font-serif text-[32px] font-bold text-ink leading-snug">Admin Dashboard</h1>
+          <p className="font-sans text-sm text-ink-muted mt-1">Manage all your portfolio data and personal content.</p>
         </div>
 
         {/* Tab Navigation */}
@@ -53,7 +56,7 @@ export default function DashboardPage() {
               activeTab === 'projects' ? 'border-ink text-ink' : 'border-transparent text-ink-muted hover:text-ink'
             )}
           >
-            Proyek
+            Projects
           </button>
           <button
             onClick={() => setActiveTab('now')}
@@ -62,7 +65,16 @@ export default function DashboardPage() {
               activeTab === 'now' ? 'border-ink text-ink' : 'border-transparent text-ink-muted hover:text-ink'
             )}
           >
-            Status Sekarang
+            Now Status
+          </button>
+          <button
+            onClick={() => setActiveTab('skills')}
+            className={cn(
+              'font-sans text-[12px] font-semibold tracking-wider uppercase px-4 py-2 border-b-2 -mb-px transition-colors duration-75',
+              activeTab === 'skills' ? 'border-ink text-ink' : 'border-transparent text-ink-muted hover:text-ink'
+            )}
+          >
+            Skills
           </button>
         </div>
 
@@ -78,6 +90,10 @@ export default function DashboardPage() {
 
           {activeTab === 'now' && (
             <NowStatusManagementTab currentStatus={currentStatus} isLoading={loadingNow} qc={qc} />
+          )}
+
+          {activeTab === 'skills' && (
+            <SkillsManagementTab skills={skills} isLoading={loadingSkills} qc={qc} />
           )}
         </div>
       </div>

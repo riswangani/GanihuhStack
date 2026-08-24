@@ -4,6 +4,7 @@ using GanihuhStack.Domain.Entities.BlogPosts;
 using GanihuhStack.Domain.Entities.Identity;
 using GanihuhStack.Domain.Entities.NowStatuses;
 using GanihuhStack.Domain.Entities.Projects;
+using GanihuhStack.Domain.Entities.Skills;
 using GanihuhStack.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<NowStatus> NowStatuses => Set<NowStatus>();
+    public DbSet<Skill> Skills => Set<Skill>();
     public DbSet<UserSession> UserSessions => Set<UserSession>();
 
     protected override void OnModelCreating(ModelBuilder builder)

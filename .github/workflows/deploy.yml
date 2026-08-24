@@ -5,11 +5,9 @@ on:
     branches: [master]
   workflow_dispatch:
 
-# a newer push cancels any older run still queued/running, so pushes made
-# close together don't pile up waiting for windows-latest runners
 concurrency:
   group: deploy-monsterasp
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
