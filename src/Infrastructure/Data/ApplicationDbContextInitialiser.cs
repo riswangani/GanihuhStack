@@ -3,6 +3,7 @@ using GanihuhStack.Domain.Constants;
 using GanihuhStack.Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -15,7 +16,15 @@ public static class InitialiserExtensions
         using var scope = app.Services.CreateScope();
         var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
         await initialiser.InitialiseAsync();
-        await initialiser.SeedAsync();
+        await initialiser.SeedIdentityAsync();
+        await initialiser.SeedSampleContentAsync();
+    }
+    public static async Task MigrateAndSeedIdentityAsync(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
+        await initialiser.InitialiseAsync();
+        await initialiser.SeedIdentityAsync();
     }
 }
 
@@ -25,17 +34,20 @@ public class ApplicationDbContextInitialiser
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly IConfiguration _configuration;
 
     public ApplicationDbContextInitialiser(
         ILogger<ApplicationDbContextInitialiser> logger,
         ApplicationDbContext context,
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager)
+        RoleManager<IdentityRole> roleManager,
+        IConfiguration configuration)
     {
         _logger = logger;
         _context = context;
         _userManager = userManager;
         _roleManager = roleManager;
+        _configuration = configuration;
     }
 
     public async Task InitialiseAsync()
@@ -51,33 +63,51 @@ public class ApplicationDbContextInitialiser
         }
     }
 
-    public async Task SeedAsync()
+    public async Task SeedIdentityAsync()
     {
         try
         {
-            await TrySeedAsync();
+            var administratorRole = new IdentityRole(Roles.Administrator);
+            if (_roleManager.Roles.All(r => r.Name != administratorRole.Name))
+                await _roleManager.CreateAsync(administratorRole);
+
+            var administrator = new ApplicationUser { UserName = "admin@ganihuhstack.com", Email = "admin@ganihuhstack.com" };
+            if (_userManager.Users.All(u => u.UserName != administrator.UserName))
+            {
+                var password = _configuration["Identity:AdminPassword"];
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    password = "Admin123!";
+                    _logger.LogWarning("Identity:AdminPassword is not configured — seeding the admin account with the default development password. Set it via environment variable before this is reachable by anyone but you.");
+                }
+
+                await _userManager.CreateAsync(administrator, password);
+                if (!string.IsNullOrWhiteSpace(administratorRole.Name))
+                    await _userManager.AddToRolesAsync(administrator, [administratorRole.Name]);
+            }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while seeding the database.");
+            _logger.LogError(ex, "An error occurred while seeding identity data.");
             throw;
         }
     }
 
-    public async Task TrySeedAsync()
+    public async Task SeedSampleContentAsync()
     {
-        var administratorRole = new IdentityRole(Roles.Administrator);
-        if (_roleManager.Roles.All(r => r.Name != administratorRole.Name))
-            await _roleManager.CreateAsync(administratorRole);
-
-        var administrator = new ApplicationUser { UserName = "admin@ganihuhstack.com", Email = "admin@ganihuhstack.com" };
-        if (_userManager.Users.All(u => u.UserName != administrator.UserName))
+        try
         {
-            await _userManager.CreateAsync(administrator, "Admin123!");
-            if (!string.IsNullOrWhiteSpace(administratorRole.Name))
-                await _userManager.AddToRolesAsync(administrator, [administratorRole.Name]);
+            await TrySeedSampleContentAsync();
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while seeding sample content.");
+            throw;
+        }
+    }
 
+    private async Task TrySeedSampleContentAsync()
+    {
         var samplePosts = new[]
         {
             new BlogPost
